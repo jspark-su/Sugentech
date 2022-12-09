@@ -7,6 +7,7 @@
 //
 
 #define BLE_BUADRATE            (uint32_t)19200
+//#define BLE_BUADRATE            (uint32_t)9600
 
 #define BLE_CLK_USART           CLK_Peripheral_USART1
 #define BLE_USART               USART1
@@ -81,7 +82,7 @@ typedef struct
 
 typedef struct
 {
-  char retry; // 응답 재시도 횟수 count
+  char retry; // Command 전송 총 횟수
   char tact_time_flag; //AT Command response 대기 
   int tact_time; // AT Command response count variable
   char data[BLE_BUFFER_SIZE];

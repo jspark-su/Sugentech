@@ -146,18 +146,18 @@ char Send_AT_Command(char* cmd)
   BLE_TX.tact_time_flag = 1; //BLE Tx tact time count 시작
   BLE_TX.tact_time = 0; //Tact time count 초기화
   
-  if(!strcmp(cmd, "AT+INTPULLDOWN=OFF\r")) // AT Command별 재전송 시간/횟수 설정
-  { // 2200 ms, 총 2회 재시도
+  if(!strcmp(cmd, "AT+INTPULLDOWN=OFF\r") || !strcmp(cmd, "AT+INTPULLDOWN=ON\r")) // AT Command별 재전송 시간/횟수 설정
+  { // 2200 ms, 총 2회 Command 전송
     TACK_TIME = BLE_PULLDOWN_OFF_TIME;
     BLE_TX.retry = 2;
   }
   else if(!strcmp(cmd, "AT+INTPULLDOWN?\r"))
-  {// 200 ms, 총 3회 재시도
+  {// 200 ms, 총 3회 Command 전송
     TACK_TIME = BLE_TX_TACT_TIME;
     BLE_TX.retry = 3;
   }
   else
-  { // 200 ms, 총 5회 재시도
+  { // 200 ms, 총 5회 Command 전송
     TACK_TIME = BLE_TX_TACT_TIME;
     BLE_TX.retry = 5;
   }
@@ -219,7 +219,7 @@ char Send_AT_Command(char* cmd)
       else if(BLE_RX.at_cmd_resp_chk == AT_CMD_RESP_ON) break;
       else BLE_RX.at_cmd_resp_chk = AT_CMD_RESP_NONE;
     }
-    else if((!strcmp(cmd, "AT+INTPULLDOWN=OFF\r")) || (strstr(cmd, "AT+MANUF=") != NULL))
+    else if((!strcmp(cmd, "AT+INTPULLDOWN=OFF\r")) || (strstr(cmd, "AT+MANUF=") != NULL) || (!strcmp(cmd, "AT+INTPULLDOWN=ON\r")))
     {
       if(BLE_RX.at_cmd_resp_chk == AT_CMD_RESP_ADVERTISING){break;}
       else{BLE_RX.at_cmd_resp_chk = AT_CMD_RESP_NONE;}

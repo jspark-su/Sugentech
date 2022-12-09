@@ -126,4 +126,5 @@ void Timer_Count_Setup(USER_TIMER *TIMER_COUNT, int init_count_value, char enabl
 
 extern uint8_t fw_update_mode_execution;
 
+extern uint32_t BLE_Response_ms; ///xx
 #endif /* __MAIN_H*/

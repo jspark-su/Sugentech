@@ -36,6 +36,7 @@
 /* Private define ------------------------------------------------------------*/
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
+uint32_t BLE_Response_ms; ///xx
 /* Private function prototypes -----------------------------------------------*/
 /* Private functions ---------------------------------------------------------*/
 
@@ -86,6 +87,7 @@ void main(void)
   RAM_Vector_Table_Update_For_Main_App();
   
   Device_Instant_Wakeup();
+  BLE_Response_ms = 0;///xx
   User_GPIO_Init();
   LCD_Initialization();
   BLE_Init(); //AT command (AT+INTPULLDOWN=OFF) 적용 위해 BLE_Init();
@@ -98,37 +100,42 @@ void main(void)
   DAC_Start(); DAC_Data_Set(1000);
 
   Check_Power_Supply_Test(); // LED Ch1~7 On->Off, Battery 전압레벨 LCD 표시 (3초간)
+  
+  BLE_Response_ms = 0;///xx
 
   uint8_t ble_responce = Send_AT_Command("AT+INTPULLDOWN?\r");
   
-  if(ble_responce != AT_CMD_RESP_NONE)
+  if(ble_responce == AT_CMD_RESP_OFF)
+  { // INTPULLDOWN = OFF 상태 정상 (LCD icon: 'BLE', LED-6 (Green) 'On')
+    LED_Ctrl(LED_6, LED_ON);
+    LCD_Display(BLE, ICON_ON);
+    delay_ms(300);
+    LED_Ctrl(LED_6, LED_OFF);
+    LCD_Display(BLE, ICON_OFF);
+  }
+  else if(ble_responce == AT_CMD_RESP_ON)
   {
-    if(ble_responce == AT_CMD_RESP_OFF)
-    { // INTPULLDOWN = OFF 상태 정상 (LCD icon: 'BLE', LED-6 (Green) 'On')
+    ///xx
+    //USART_Init(BLE_USART, 9600, USART_WordLength_8b, USART_StopBits_1, USART_Parity_No, (USART_Mode_TypeDef)(USART_Mode_Tx | USART_Mode_Rx));
+    //delay_ms(500);
+    //BLE_Response_ms = 0;
+    ///xx
+
+    if(Send_AT_Command("AT+INTPULLDOWN=OFF\r") == AT_CMD_RESP_ADVERTISING)
+    { // INTPULLDOWN = OFF 설정 정상 (LCD icon: 'BLE', LED-6 (Green) 'On')
       LED_Ctrl(LED_6, LED_ON);
       LCD_Display(BLE, ICON_ON);
       delay_ms(300);
       LED_Ctrl(LED_6, LED_OFF);
       LCD_Display(BLE, ICON_OFF);
     }
-    else // ble_responce == AT_CMD_RESP_ON
-    {
-      if(Send_AT_Command("AT+INTPULLDOWN=OFF\r") == AT_CMD_RESP_ADVERTISING)
-      { // INTPULLDOWN = OFF 설정 정상 (LCD icon: 'BLE', LED-6 (Green) 'On')
-        LED_Ctrl(LED_6, LED_ON);
-        LCD_Display(BLE, ICON_ON);
-        delay_ms(300);
-        LED_Ctrl(LED_6, LED_OFF);
-        LCD_Display(BLE, ICON_OFF);
-      }
-      else
-      { // INTPULLDOWN = OFF 설정 실패 (LCD icon: 'INSERT' + 'BLE' + 'BOOK', LED-7 (Red) 'On')
-        LED_Ctrl(LED_7, LED_ON);
-        LCD_Display(BLE, ICON_ON); LCD_Display(BOOK, ICON_ON); LCD_Display(INSERT, ICON_ON);
-        delay_ms(5000);
-        LED_Ctrl(LED_7, LED_OFF);
-        LCD_Display(BLE, ICON_OFF); LCD_Display(BOOK, ICON_OFF); LCD_Display(INSERT, ICON_OFF);
-      }
+    else
+    { // INTPULLDOWN = OFF 설정 실패 (LCD icon: 'INSERT' + 'BLE' + 'BOOK', LED-7 (Red) 'On')
+      LED_Ctrl(LED_7, LED_ON);
+      LCD_Display(BLE, ICON_ON); LCD_Display(BOOK, ICON_ON); LCD_Display(INSERT, ICON_ON);
+      delay_ms(5000);
+      LED_Ctrl(LED_7, LED_OFF);
+      LCD_Display(BLE, ICON_OFF); LCD_Display(BOOK, ICON_OFF); LCD_Display(INSERT, ICON_OFF);
     }
   }
   else
@@ -139,6 +146,8 @@ void main(void)
     LED_Ctrl(LED_7, LED_OFF);
     LCD_Display(BLE, ICON_OFF); LCD_Display(BOOK, ICON_OFF); LCD_Display(EJECT, ICON_OFF);
   }
+  
+  Send_AT_Command("AT+INTPULLDOWN=ON\r"); ///xx
 
   DAC_Data_Set(0); DAC_End();
   OP_Amp_Disable(); DAC_Deinitialization();
