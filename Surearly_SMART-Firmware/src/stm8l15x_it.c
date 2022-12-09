@@ -313,8 +313,6 @@ INTERRUPT_HANDLER(TIM2_UPD_OVF_TRG_BRK_USART2_TX_IRQHandler,19) // 1 ms timer
   
     TIM2_ClearITPendingBit(TIM2_IT_Update);
     
-    BLE_Response_ms++;///xx
-    
     if((BLE_TX.data[BLE_TX.index]) && (BLE_TX.flag == SET) && (ble_uart_block == BLE_UART_BLOCK_DISABLE))
     {
       if(BLE_TX.data_cnt < nTxByte)		// Tx 150-byte

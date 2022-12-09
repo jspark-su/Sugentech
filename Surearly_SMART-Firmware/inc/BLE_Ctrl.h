@@ -7,7 +7,6 @@
 //
 
 #define BLE_BUADRATE            (uint32_t)19200
-//#define BLE_BUADRATE            (uint32_t)9600
 
 #define BLE_CLK_USART           CLK_Peripheral_USART1
 #define BLE_USART               USART1
