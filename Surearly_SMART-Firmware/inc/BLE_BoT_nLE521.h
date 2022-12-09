@@ -19,6 +19,8 @@
 #define AT_CMD_RESP_STRING_OK   4
 #define AT_CMD_RESP_ERROR       5
 #define AT_CMD_RESP_TIMEOUT     6
+#define AT_CMD_RESP_ON          7
+#define AT_CMD_RESP_OFF         8
 //API command response
 #define API_RESP_NONE           0
 #define API_RESP_OK             1
@@ -40,8 +42,5 @@ void BLE_Bot_Rx_Enqueue();
 char Send_AT_Command(char* cmd);
 void BLE_Bot_Queue_Process();
 void BLE_Bot_Queue_Init();
-char Resetting_BaudRate();
-char BLE_SetupBaudrate();
-
 //#endif /*__BLE_BOT_NLE521*/
 #endif /* __BLE_BOT_NLE521_H*/

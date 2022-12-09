@@ -309,7 +309,6 @@ void Factory_Reset_Process()
       Load_Memory_Bank(MEMORY_ADDR_3, &MEM_BANK_1); //Factory 영역에 저장된 data load      
       Save_Memory_Bank_Block_Program(&MEM_BANK_1);
 
-      EEPROM_Byte_Write(BLE_BAUDRATE_SETUP_COMPLETE_ADDR, BLE_SETUP_NONE); //BLE baudrate 설정 확인 초기화
       EEPROM_Byte_Write(BLE_NAME_SETUP_COMPLETE_ADDR, BLE_SETUP_NONE); //BLE name 설정 확인 초기화
       
       /* Battery, BLE icon update */

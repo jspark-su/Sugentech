@@ -98,52 +98,41 @@ void main(void)
   DAC_Start(); DAC_Data_Set(1000);
 
   Check_Power_Supply_Test(); // LED Ch1~7 On->Off, Battery 전압레벨 LCD 표시 (3초간)
+
+  uint8_t ble_responce = Send_AT_Command("AT+INTPULLDOWN?\r");
   
-  uint8_t ble_baudrate_setup_result = 0;
-  uint8_t ble_baudrate_setup_check = EEPROM_Byte_Read(BLE_BAUDRATE_SETUP_COMPLETE_ADDR);
-
-  if(ble_baudrate_setup_check == BLE_SETUP_COMPLETE){ //이전 BLE baud rate 설정 완료 (추가 진행 필요 없음)
-    ble_baudrate_setup_result = BLE_BAUDRATE_SETUP_PASS;
-  }
-  else //BLE baud rate 자동 설정 시작
+  if(ble_responce != AT_CMD_RESP_NONE)
   {
-    if(BLE_SetupBaudrate() == AT_CMD_RESP_OK)
-    {
-      //BLE baud rate 설정 정상
-      EEPROM_Byte_Write(BLE_BAUDRATE_SETUP_COMPLETE_ADDR, BLE_SETUP_COMPLETE);
-      ble_baudrate_setup_result = BLE_BAUDRATE_SETUP_COMPLETE;
-    }
-    else
-    {
-      EEPROM_Byte_Write(BLE_BAUDRATE_SETUP_COMPLETE_ADDR, BLE_SETUP_NONE);
-      ble_baudrate_setup_result = BLE_BAUDRATE_SETUP_FAIL;
-    }
-  }
-
-  if((ble_baudrate_setup_result == BLE_BAUDRATE_SETUP_PASS) || (ble_baudrate_setup_result == BLE_BAUDRATE_SETUP_COMPLETE))
-  {
-    if(Send_AT_Command("AT+INTPULLDOWN=OFF\r") == AT_CMD_RESP_ADVERTISING) 
-    {
-      //INTPULLDOWN = OFF 설정 정상 (LCD icon: 'BLE', LED-6 (Green) 'On')
+    if(ble_responce == AT_CMD_RESP_OFF)
+    { // INTPULLDOWN = OFF 상태 정상 (LCD icon: 'BLE', LED-6 (Green) 'On')
       LED_Ctrl(LED_6, LED_ON);
       LCD_Display(BLE, ICON_ON);
       delay_ms(300);
       LED_Ctrl(LED_6, LED_OFF);
       LCD_Display(BLE, ICON_OFF);
     }
-    else
+    else // ble_responce == AT_CMD_RESP_ON
     {
-      //INTPULLDOWN = OFF 설정 실패 (LCD icon: 'INSERT' + 'BLE' + 'BOOK', LED-7 (Red) 'On')
-      LED_Ctrl(LED_7, LED_ON);
-      LCD_Display(BLE, ICON_ON); LCD_Display(BOOK, ICON_ON); LCD_Display(INSERT, ICON_ON);
-      delay_ms(5000);
-      LED_Ctrl(LED_7, LED_OFF);
-      LCD_Display(BLE, ICON_OFF); LCD_Display(BOOK, ICON_OFF); LCD_Display(INSERT, ICON_OFF);
+      if(Send_AT_Command("AT+INTPULLDOWN=OFF\r") == AT_CMD_RESP_ADVERTISING)
+      { // INTPULLDOWN = OFF 설정 정상 (LCD icon: 'BLE', LED-6 (Green) 'On')
+        LED_Ctrl(LED_6, LED_ON);
+        LCD_Display(BLE, ICON_ON);
+        delay_ms(300);
+        LED_Ctrl(LED_6, LED_OFF);
+        LCD_Display(BLE, ICON_OFF);
+      }
+      else
+      { // INTPULLDOWN = OFF 설정 실패 (LCD icon: 'INSERT' + 'BLE' + 'BOOK', LED-7 (Red) 'On')
+        LED_Ctrl(LED_7, LED_ON);
+        LCD_Display(BLE, ICON_ON); LCD_Display(BOOK, ICON_ON); LCD_Display(INSERT, ICON_ON);
+        delay_ms(5000);
+        LED_Ctrl(LED_7, LED_OFF);
+        LCD_Display(BLE, ICON_OFF); LCD_Display(BOOK, ICON_OFF); LCD_Display(INSERT, ICON_OFF);
+      }
     }
   }
   else
-  {
-    //BLE baud rate 설정 실패 (LCD icon: 'EJECT' + 'BLE' + 'BOOK', LED-7 (Red) 'On')
+  { // BLE 통신 오류 (LCD icon: 'EJECT' + 'BLE' + 'BOOK', LED-7 (Red) 'On')
     LED_Ctrl(LED_7, LED_ON);
     LCD_Display(BLE, ICON_ON); LCD_Display(BOOK, ICON_ON); LCD_Display(EJECT, ICON_ON);
     delay_ms(5000);
