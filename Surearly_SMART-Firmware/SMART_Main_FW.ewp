@@ -491,7 +491,7 @@
                 </option>
                 <option>
                     <name>OOCOutputFile</name>
-                    <state>SMART_Main_FW.bin</state>
+                    <state>SMART_Main_FW-v2.0.18_alpha.bin</state>
                 </option>
                 <option>
                     <name>OOCCommandLineProducer</name>
@@ -499,7 +499,7 @@
                 </option>
                 <option>
                     <name>OOCObjCopyEnable</name>
-                    <state>0</state>
+                    <state>1</state>
                 </option>
             </data>
         </settings>

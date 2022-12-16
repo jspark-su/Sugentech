@@ -6,7 +6,7 @@
 //#define __BLE_RF_BM_4044B4
 //
 
-#define BLE_BUADRATE            (uint32_t)38400
+#define BLE_BUADRATE            (uint32_t)19200
 
 #define BLE_CLK_USART           CLK_Peripheral_USART1
 #define BLE_USART               USART1
@@ -44,7 +44,8 @@
 #define BLE_NAME_CMD_BUF_SIZE   31 //"AT+MANUF=SurearlySmart-000000\r"
 #define BLE_MAC_ADDR_BUF_SIZE   18 //MAC address = "5C:F2:86:42:85:15"
 
-#define BLE_TX_TACT_TIME        3000
+#define BLE_PULLDOWN_OFF_TIME   2200
+#define BLE_TX_TACT_TIME        200
 #define BLE_RX_TACT_TIME        200
 
 
@@ -53,10 +54,6 @@
 #define BLE_NAME_SETUP_FAIL_AT_INFO     1
 #define BLE_NAME_SETUP_FAIL_AT_MANUF    2
 #define BLE_NAME_SETUP_FAIL_VERIFY      3
-
-#define BLE_BAUDRATE_SETUP_PASS         0
-#define BLE_BAUDRATE_SETUP_COMPLETE     1
-#define BLE_BAUDRATE_SETUP_FAIL         2
 
 #define BLE_SETUP_NONE                  (uint8_t)0x00
 #define BLE_SETUP_COMPLETE              (uint8_t)0x01
@@ -84,7 +81,7 @@ typedef struct
 
 typedef struct
 {
-  char retry; // 응답 재시도 횟수 count
+  char retry; // Command 전송 총 횟수
   char tact_time_flag; //AT Command response 대기 
   int tact_time; // AT Command response count variable
   char data[BLE_BUFFER_SIZE];

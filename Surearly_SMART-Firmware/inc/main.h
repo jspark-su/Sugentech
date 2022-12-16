@@ -1,7 +1,7 @@
 #ifndef __MAIN_H
  #define __MAIN_H
 
-#define FW_VER  "2.0.18_alpha"
+#define FW_VER  "2.0.18_alpha.2"
 
 #define END                           0
 #define START                         1

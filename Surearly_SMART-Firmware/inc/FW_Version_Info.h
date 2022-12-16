@@ -711,3 +711,14 @@
 		(2) API Parsing 종료 → UART Enable
         2) JSON 추출 실패 시 (rootValue, rootObject == NULL) 함수 종료
 */
+
+/*2022. 12. 09 / Version: v2.0.18_alpha.2
+- Internal Pull-down 상태 확인
+        1) "AT+INTPULLDOWN=OFF"에서 "AT+INTPULLDOWN?"로 변경
+- AT Command별 재전송 시간 / 총 전송 횟수  설정
+        1) 'AT+INTPULLDOWN?': 200 ms / 3 회
+        2) 'AT+INTPULLDOWN=OFF': 2200 ms / 2 회
+        3) 그 외 : 200 ms / 5 회
+- BLE Baudrate 자동 설정 관련 코드 삭제
+        1) BLE_SetupBaudrate(), BLE_SetupBaudrate() 외 기타 변수
+*/

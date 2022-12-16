@@ -4,18 +4,6 @@
 
 CQueue BLE_BOT_QUEUE;
 
-#define Target_BaudRate         (uint32_t)19200
-
-const uint32_t BLE_BaudrateArr[] = {
-  Target_BaudRate,
-  38400,
-  115200,
-  9600,
-  28800,
-  19200
-};
-uint8_t baudrate_index = 0;
-
 void BLE_Bot_Uart_Init()
 {
   SYSCFG_REMAPPinConfig(REMAP_Pin_USART1TxRxPortA, ENABLE);
@@ -25,7 +13,7 @@ void BLE_Bot_Uart_Init()
   GPIO_ExternalPullUpConfig(BLE_UART_PORT, BLE_RX_PIN, DISABLE); //DISABLE 상태 고정, ENABLE 시 MCU USART Rx로 data 수신 불가
   GPIO_ExternalPullUpConfig(BLE_UART_PORT, BLE_TX_PIN, ENABLE);
  
-  USART_Init(BLE_USART, Target_BaudRate, USART_WordLength_8b, USART_StopBits_1, USART_Parity_No, (USART_Mode_TypeDef)(USART_Mode_Tx | USART_Mode_Rx));
+  USART_Init(BLE_USART, BLE_BUADRATE, USART_WordLength_8b, USART_StopBits_1, USART_Parity_No, (USART_Mode_TypeDef)(USART_Mode_Tx | USART_Mode_Rx));
   
   //enableInterrupts();
   
@@ -151,11 +139,29 @@ char Send_AT_Command(char* cmd)
 {
   int i = 0;
   char resp_result = 0;
+  uint16_t TACK_TIME = 0;
+  
   BLE_RX.at_cmd_resp_chk = AT_CMD_RESP_NONE;
   BLE_Tx_String(cmd);//Send AT command 
   BLE_TX.tact_time_flag = 1; //BLE Tx tact time count 시작
   BLE_TX.tact_time = 0; //Tact time count 초기화
-  BLE_TX.retry = 5; // 총 5회 재시도
+  
+  if(!strcmp(cmd, "AT+INTPULLDOWN=OFF\r")) // AT Command별 전송 시간/횟수 설정
+  { // 2200 ms, 총 2회 Command 전송
+    TACK_TIME = BLE_PULLDOWN_OFF_TIME;
+    BLE_TX.retry = 2;
+  }
+  else if(!strcmp(cmd, "AT+INTPULLDOWN?\r"))
+  {// 200 ms, 총 3회 Command 전송
+    TACK_TIME = BLE_TX_TACT_TIME;
+    BLE_TX.retry = 3;
+  }
+  else
+  { // 200 ms, 총 5회 Command 전송
+    TACK_TIME = BLE_TX_TACT_TIME;
+    BLE_TX.retry = 5;
+  }
+
   while(1)
   {
     if((!strcmp(cmd, "AT\r")) || (strstr(cmd, "AT+UART=") != NULL))
@@ -207,6 +213,12 @@ char Send_AT_Command(char* cmd)
       }
       else{BLE_RX.at_cmd_resp_chk = AT_CMD_RESP_NONE;}//"AT+INFO?" 명령의 응답 수신 실패 또는 "+OK" 응답 수신
     }
+    else if(!strcmp(cmd, "AT+INTPULLDOWN?\r"))
+    {
+      if(BLE_RX.at_cmd_resp_chk == AT_CMD_RESP_OFF) break;
+      else if(BLE_RX.at_cmd_resp_chk == AT_CMD_RESP_ON) break;
+      else BLE_RX.at_cmd_resp_chk = AT_CMD_RESP_NONE;
+    }
     else if((!strcmp(cmd, "AT+INTPULLDOWN=OFF\r")) || (strstr(cmd, "AT+MANUF=") != NULL))
     {
       if(BLE_RX.at_cmd_resp_chk == AT_CMD_RESP_ADVERTISING){break;}
@@ -214,7 +226,7 @@ char Send_AT_Command(char* cmd)
     }
     else{}
 
-    if(BLE_TX.tact_time >= BLE_TX_TACT_TIME)//200 msec 마다 재전송 (총 5회)
+    if(BLE_TX.tact_time >= TACK_TIME)// Command 재전송
     {
       BLE_RX.at_cmd_resp_chk = AT_CMD_RESP_NONE;
       BLE_Tx_String(cmd);//send
@@ -268,7 +280,15 @@ void BLE_Bot_Queue_Process()
         }
         else
         {
-          BLE_RX.at_cmd_resp_chk = AT_CMD_RESP_STRING_OK; //AT command의 수신 된 응답이 string 일 때, ex) "AT+INFO?" 명령 전송 후 응답 수신
+          if(strstr(BLE_RX.data, "ON\r") != NULL){
+            BLE_RX.at_cmd_resp_chk = AT_CMD_RESP_ON;
+          }
+          else if(strstr(BLE_RX.data, "OFF\r") != NULL){
+            BLE_RX.at_cmd_resp_chk = AT_CMD_RESP_OFF;
+          }
+          else{
+            BLE_RX.at_cmd_resp_chk = AT_CMD_RESP_STRING_OK; //AT command의 수신 된 응답이 string 일 때, ex) "AT+INFO?" 명령 전송 후 응답 수신
+          }
         }
       }
       else{
@@ -343,69 +363,4 @@ void BLE_Bot_Queue_Init()
 {
   QueueInit(&BLE_BOT_QUEUE);
 }
-
-char Resetting_BaudRate()
-{
-  baudrate_index++;
-  if(baudrate_index == sizeof(BLE_BaudrateArr)/sizeof(uint32_t))
-    return AT_CMD_RESP_ERROR;
-
-  USART_Init(BLE_USART, BLE_BaudrateArr[baudrate_index],
-             USART_WordLength_8b, USART_StopBits_1, USART_Parity_No, 
-             (USART_Mode_TypeDef)(USART_Mode_Tx | USART_Mode_Rx));
-  
-  return Send_AT_Command("AT\r");
-}
-
-
-/**
-  # resetting_baudrate == AT_CMD_RESP_OK;
-    AT Command (AT+UART=Target_BaudRate) 전송 후 
-    MCU UART Baud Rate를 Target_BaudRate로 변경
-
-  # resetting_baudrate == AT_CMD_RESP_TIMEOUT;
-    Baud Rate 변경 후 AT Command 전송 (Resetting_BaudRate())
-
-  # resetting_baudrate == AT_CMD_RESP_ERROR;
-    Baud Rate 항목들이 모두 불일치, 프로그램 종료
-**/
-char BLE_SetupBaudrate()
-{
-  if(Send_AT_Command("AT\r") == AT_CMD_RESP_OK){
-    return AT_CMD_RESP_OK;
-  }
-  else{
-    char resetting_baudrate;
-    while(1)
-    {
-      resetting_baudrate = Resetting_BaudRate();
-      
-      if(resetting_baudrate == AT_CMD_RESP_OK)
-      {
-        char CharBuf[20] = {0};
-        sprintf(CharBuf, "AT+UART=%lu\r", Target_BaudRate);
-        while(Send_AT_Command(CharBuf) != AT_CMD_RESP_OK){
-          return AT_CMD_RESP_ERROR;
-        }
-        USART_Init(BLE_USART, Target_BaudRate,
-                   USART_WordLength_8b, USART_StopBits_1, USART_Parity_No, 
-                   (USART_Mode_TypeDef)(USART_Mode_Tx | USART_Mode_Rx));
-        
-        delay_ms(2000);
-        while(Send_AT_Command(CharBuf) != AT_CMD_RESP_OK){
-          return AT_CMD_RESP_ERROR;
-        }
-        return AT_CMD_RESP_OK;
-      }
-      else if(resetting_baudrate == AT_CMD_RESP_ERROR)
-      {
-        if(baudrate_index == sizeof(BLE_BaudrateArr)/sizeof(uint32_t)){
-          return AT_CMD_RESP_ERROR;
-        }
-        else{}
-      }
-    }
-  }
-}
-
 #endif /*__BLE_BOT_NLE521*/
