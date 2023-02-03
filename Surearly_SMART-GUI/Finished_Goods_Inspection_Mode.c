@@ -5,6 +5,13 @@ INSPECTION_ITEMS_Typedef    INSPECTION_ITEMS;
 
 char std_stick_number = 0;
 
+// xx
+char buf_debug[100] = {0};
+
+// xx
+
+
+
 void FGI_Read_Checklist_Item_Status(int panel)
 {
     char checklist_item[6][3] = {0,};
@@ -218,6 +225,18 @@ void FGI_Read_Std_Stick_Process()
 	{
 	    switch(FGI_VALIABLE.function_number)
 	    {
+          case FGI_CALIBRATION_MODE_START :
+        	FGI_Calibration_Mode_Start(tabPanel_FGI);
+	        break;
+          case FGI_CALIBRATION_STICK_CHECK :
+        	FGI_Calibration_Stick_Check(tabPanel_FGI);
+	        break;
+          case FGI_CALIBRATION_START :
+        	FGI_Calibration_Start(tabPanel_FGI);
+	        break;
+          case FGI_CALIBRATION_STATE :
+        	FGI_Calibration_State(tabPanel_FGI);
+	        break;				
           case FGI_STD_STICK_READ_START :
         	FGI_Read_Std_Stick_Start(tabPanel_FGI);
 	        break;  
@@ -258,6 +277,197 @@ void FGI_Read_Std_Stick_Init(int panel)
 			}
 		}
 	}
+}
+
+
+void FGI_Calibration_Mode_Start(int panel)
+{
+	if(FGI_VALIABLE.one_time_process == RESET)
+	{
+		FGI_VALIABLE.one_time_process = SET;
+		API_Tx_Command_Process(CMD_PRODUCT_MODE_START);
+	}
+	
+	if((rx_msg_check == NORMAL_MESSAGE) && (rx_msg_function == CMD_PRODUCT_MODE_START))
+	{
+		SetCtrlVal(panel, TABPANEL_2_LOG_MONITOR_FGI, "\r\n > 캘리브레이션 모드 시작");
+		FGI_Next_Process(FGI_CALIBRATION_STICK_CHECK);
+	}
+	else
+	{
+		FGI_VALIABLE.cmd_retry_timer++;
+		if(FGI_VALIABLE.cmd_retry_timer >= CMD_RETRY_TIME)
+		{
+			FGI_VALIABLE.cmd_retry_timer = 0;
+			if(FGI_VALIABLE.cmd_retry_count < CMD_RETRY_COUNT_NUM)
+			{
+				API_Tx_Command_Process(CMD_PRODUCT_MODE_START);
+				FGI_VALIABLE.cmd_retry_count++;
+			}
+			else 
+			{
+				SetCtrlVal(panel, TABPANEL_2_LOG_MONITOR_FGI, "\r\n 오류: 기기 전원, 블루투스 상태를 확인하십시오.\r\n");
+				FGI_Stop();
+			}
+		}
+	}		
+}
+
+void FGI_Calibration_Stick_Check(int panel)
+{
+	if(FGI_VALIABLE.one_time_process == RESET)
+	{
+		SetCtrlVal(panel, TABPANEL_2_LOG_MONITOR_FGI, " & 스틱 삽입 확인 ");
+		
+		FGI_VALIABLE.one_time_process = SET;
+		API_Tx_Command_Process(CMD_CALIBRATION_STICK_CHECK);
+	}
+	
+	if((rx_msg_check == NORMAL_MESSAGE) && (rx_msg_function == CMD_CALIBRATION_STICK_CHECK))
+	{
+		if((stick_state_check == STICK_INSERTED) && (calibration_proc_state == STATE_NONE))
+		{
+			SetCtrlVal(panel, TABPANEL_2_LOG_MONITOR_FGI, " [OK]\r\n");
+			FGI_Next_Process(FGI_CALIBRATION_START);
+		}
+		else //STICK_EJECTED
+		{
+			SetCtrlVal(panel, TABPANEL_9_MONITOR_QA_TEST, " [Fail]\r\n");
+			SetCtrlVal(panel, TABPANEL_9_MONITOR_QA_TEST, " - 오류: 캘리브레이션 스틱 분리\r\n");
+			SetCtrlVal(panel, TABPANEL_9_MONITOR_QA_TEST, " - 오류: 캘리브레이션 스틱 삽입 후 설정을 재시작하십시오.\n\n");
+			FGI_Stop();
+		}
+	}
+	else
+	{
+		FGI_VALIABLE.cmd_retry_timer++;
+		if(FGI_VALIABLE.cmd_retry_timer >= CMD_RETRY_TIME)
+		{
+			FGI_VALIABLE.cmd_retry_timer = 0;
+			if(FGI_VALIABLE.cmd_retry_count < CMD_RETRY_COUNT_NUM)
+			{
+				API_Tx_Command_Process(CMD_CALIBRATION_STICK_CHECK);
+				FGI_VALIABLE.cmd_retry_count++;
+				
+				SetCtrlVal(panel, TABPANEL_2_LOG_MONITOR_FGI, "-");
+			}
+			else 
+			{
+				SetCtrlVal(panel, TABPANEL_2_LOG_MONITOR_FGI, " [Fail]\r\n");
+				SetCtrlVal(panel, TABPANEL_2_LOG_MONITOR_FGI, " - 오류: 캘리브레이션 스틱 삽입 후 재시작하십시오.\r\n");
+        		FGI_Stop();
+			}
+		}
+	}	
+}
+
+
+void FGI_Calibration_Start(int panel)
+{
+	if(FGI_VALIABLE.one_time_process == RESET)
+	{
+		FGI_VALIABLE.one_time_process = SET;
+		API_Tx_Command_Process(CMD_CALIBRATION_START);
+		
+		SetCtrlVal(panel, TABPANEL_2_LOG_MONITOR_FGI, " > 캘리브레이션 진행 ");
+	}
+	
+	if((rx_msg_check == NORMAL_MESSAGE) && ((rx_msg_function == CMD_CALIBRATION_START) || (rx_msg_function == CMD_CALIBRATION_STATE_CHECK)))
+	{
+		SetCtrlVal(panel, TABPANEL_2_LOG_MONITOR_FGI, " [OK]\r\n");
+		FGI_Next_Process(FGI_CALIBRATION_STATE);
+	}
+	else
+	{
+		FGI_VALIABLE.cmd_retry_timer++;
+		if(FGI_VALIABLE.cmd_retry_timer >= CMD_RETRY_TIME)
+		{
+			FGI_VALIABLE.cmd_retry_timer = 0;
+			if(FGI_VALIABLE.cmd_retry_count < CMD_RETRY_COUNT_NUM)
+			{
+				API_Tx_Command_Process(CMD_CALIBRATION_START);
+				FGI_VALIABLE.cmd_retry_count++;
+				
+				SetCtrlVal(panel, TABPANEL_2_LOG_MONITOR_FGI, "-");
+			}
+			else 
+			{
+				SetCtrlVal(panel, TABPANEL_2_LOG_MONITOR_FGI, " [Fail]\r\n");
+				SetCtrlVal(panel, TABPANEL_2_LOG_MONITOR_FGI, " - 오류: 블루투스 연결을 확인해주십시오.\r\n");
+        		FGI_Stop();
+			}
+		}
+	}	
+}
+
+void FGI_Calibration_State(int panel)
+{
+	if(FGI_VALIABLE.one_time_process == RESET)
+	{
+		FGI_VALIABLE.one_time_process = SET;
+		API_Tx_Command_Process(CMD_CALIBRATION_STATE_CHECK);
+		
+		SetCtrlVal(panel, TABPANEL_2_LOG_MONITOR_FGI, " > 캘리브레이션 설정 ");
+	}
+	
+	if((rx_msg_check == NORMAL_MESSAGE) && (rx_msg_function == CMD_CALIBRATION_STATE_CHECK))
+	{
+		if(stick_state_check == STICK_INSERTED)
+		{
+			if(calibration_proc_state == STATE_COMPLETE)
+			{
+				SetCtrlVal(panel, TABPANEL_2_LOG_MONITOR_FGI, " [Completed]\r\n");
+	            //SET_RESULT.led_calibration = TR_PASS;
+				//FGI_Next_Process(FGI_STD_STICK_READ_START);
+				FGI_Stop();
+			}
+			else if(calibration_proc_state == STATE_FAIL)
+			{
+				SetCtrlVal(panel, TABPANEL_2_LOG_MONITOR_FGI, " [Fail]\r\n");
+				SetCtrlVal(panel, TABPANEL_2_LOG_MONITOR_FGI, " - 오류: 기기의 광학부 상태를 점검해주십시오.\n");
+				SetCtrlVal(panel, TABPANEL_2_LOG_MONITOR_FGI, " - 오류: 기기 상태 확인 후 설정을 재시작하십시오.\n");
+		        //SET_RESULT.led_calibration = TR_FAIL;
+				FGI_Stop();
+			}
+			else {}
+		}
+		else
+		{
+			SetCtrlVal(panel, TABPANEL_2_LOG_MONITOR_FGI, " [Stick Eject]\r\n");
+			SetCtrlVal(panel, TABPANEL_2_LOG_MONITOR_FGI, " - 오류: 캘리브레이션 스틱이 삽입되지 않았습니다.\r\n");
+    		FGI_Stop();
+		}
+	}
+	else
+	{
+		FGI_VALIABLE.cmd_retry_timer++;
+		if(FGI_VALIABLE.cmd_retry_timer >= CMD_RETRY_TIME)
+		{
+			
+					// xx
+					//sprintf(buf_debug, ".%d", FGI_VALIABLE.cmd_retry_count);
+					//SetCtrlVal(panel, TABPANEL_2_LOG_MONITOR_FGI, buf_debug);
+					// xx
+					
+			FGI_VALIABLE.cmd_retry_timer = 0;		
+			if(FGI_VALIABLE.cmd_retry_count < CMD_RETRY_COUNT_NUM)
+			{
+				API_Tx_Command_Process(CMD_CALIBRATION_STATE_CHECK);
+				FGI_VALIABLE.cmd_retry_count++;
+				
+
+				SetCtrlVal(panel, TABPANEL_2_LOG_MONITOR_FGI, "/");
+			}
+			else 
+			{
+				SetCtrlVal(panel, TABPANEL_2_LOG_MONITOR_FGI, " [Fail]\r\n");
+				SetCtrlVal(panel, TABPANEL_2_LOG_MONITOR_FGI, " - 오류: 기기의 광학부 상태를 점검해주십시오.\r\n");
+				SetCtrlVal(panel, TABPANEL_2_LOG_MONITOR_FGI, " - 기기 상태 확인 후 설정을 재시작하십시오.\r\n");
+				//SET_RESULT.led_calibration = TR_FAIL;
+        		FGI_Stop();
+			}
+		}
+	}	
 }
 
 void FGI_Read_Std_Stick_Start(int panel)

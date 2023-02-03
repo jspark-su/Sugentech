@@ -1,6 +1,7 @@
 [Workspace Header]
 Version = 2000
-Pathname = "/c/Users/admin/Documents/Git/Sugentech-Backup/Surearly_SMART-GUI/Main_UI.cws"
+Pathname Line0001 = "/c/Users/admin/Surearly_Project/Manager/SMART/Surearly_SMART_Manager_Program_v1."
+Pathname Line0002 = "8.1_re/Main_UI.cws"
 CVI Dir = "/c/program files (x86)/national instruments/cvi2020"
 CVI Shared Dir = "/C/Program Files (x86)/National Instruments/Shared/CVI"
 CVI Pub Local Dir = "/C/ProgramData/National Instruments/CVI2020"
@@ -14,9 +15,9 @@ Active Project = 1
 Project 0001 = "Main_UI.prj"
 Drag Bar Left = 326
 Window Top = 141
-Window Left = -1415
+Window Left = 2168
 Window Bottom = 1071
-Window Right = -101
+Window Right = 3482
 Maximized = True
 Maximized Children = True
 Max32 Number Of Errors = 20
@@ -30,7 +31,7 @@ Save Changes Before Compiling = "Always"
 Hide Windows = False
 Break At First Statement = False
 Sort Type = "File Name"
-Number of Opened Files = 2
+Number of Opened Files = 13
 Window Confinement Region Enabled = True
 MainColumnWidth = 309
 FileDateColumnWidth = 70
@@ -46,41 +47,152 @@ Batch Build Release = False
 Batch Build Debug = False
 
 [File 0001]
-Path Line0001 = "/c/Users/admin/Documents/Git/Sugentech-Backup/Surearly_SMART-GUI/Finished_Goods_"
-Path Line0002 = "Inspection_Mode.c"
+Path Line0001 = "/c/Users/admin/Surearly_Project/Manager/SMART/Surearly_SMART_Manager_Program_v1."
+Path Line0002 = "8.1_re/Finished_Goods_Inspection_Mode.c"
 File Type = "CSource"
-Disk Date = 3739933193
+Disk Date = 3758247794
 In Projects = "1,"
-Source Window State = "1,119,119,119,0,0,0,0,0,0,0,0,0,0,0,0,99,0,119,0,349,698,1,0,"
-Breakpoint 0001 = "219,0,enabled,"
-Tracepoint 0001 = "0,0,220,1,"
-Window Top = 281
-Window Left = 138
-
-[File 0002]
-Path = "/c/Users/admin/Documents/Git/Sugentech-Backup/Surearly_SMART-GUI/Main_UI.c"
-File Type = "CSource"
-Disk Date = 3741060283
-In Projects = "1,"
-Source Window State = "1,376,376,376,1,1,1,0,0,0,0,0,0,0,0,0,332,0,376,1,349,698,1,0,"
-Window Top = 126
-Window Left = 50
-Window Z-Order = 1
-
-[File 0003]
-Path Line0001 = "/c/Users/admin/Documents/Git/Sugentech-Backup/Surearly_SMART-GUI/SW_Version_Info"
-Path Line0002 = ".h"
-File Type = "Include"
-Disk Date = 3753926218
-In Projects = "1,"
-Source Window State = "1,73,73,73,29,29,29,0,0,0,0,0,0,0,0,0,48,0,73,29,349,698,1,0,"
+Source Window State = "1,324,324,324,43,43,43,0,0,0,0,0,0,0,0,0,306,0,324,43,349,698,1,0,"
 Window Top = 281
 Window Left = 138
 Window Z-Order = 2
 
+[File 0002]
+Path Line0001 = "/c/Users/admin/Surearly_Project/Manager/SMART/Surearly_SMART_Manager_Program_v1."
+Path Line0002 = "8.1_re/Main_UI.c"
+File Type = "CSource"
+Disk Date = 3758244635
+In Projects = "1,"
+Source Window State = "1,416,416,416,13,13,13,0,0,0,0,0,0,0,0,0,388,0,416,13,349,698,1,0,"
+Window Top = 126
+Window Left = 50
+Window Z-Order = 8
+
+[File 0003]
+Path Line0001 = "/c/Users/admin/Surearly_Project/Manager/SMART/Surearly_SMART_Manager_Program_v1."
+Path Line0002 = "8.1_re/SW_Version_Info.h"
+File Type = "Include"
+Disk Date = 3758248524
+In Projects = "1,"
+Source Window State = "1,103,103,103,29,29,29,0,0,0,0,0,0,0,0,0,69,0,103,29,349,698,1,0,"
+Window Top = 281
+Window Left = 138
+Window Z-Order = 1
+
 [File 0004]
-Path Line0001 = "/c/Users/admin/Documents/Git/Sugentech-Backup/Surearly_SMART-GUI/Connection_Sett"
-Path Line0002 = "ings.uir"
+Path Line0001 = "/c/Users/admin/Surearly_Project/Manager/SMART/Surearly_SMART_Manager_Program_v1."
+Path Line0002 = "8.1_re/Main_UI.uir"
+File Type = "User Interface Resource"
+Disk Date = 3758170529
+In Projects = "1,"
+Window Top = 157
+Window Left = 66
+Window Height = 349
+Window Width = 579
+Window Z-Order = 9
+
+[File 0005]
+Path Line0001 = "/c/Users/admin/Surearly_Project/Manager/SMART/Surearly_SMART_Manager_Program_v1."
+Path Line0002 = "8.1_re/Main_UI.h"
+File Type = "Include"
+Disk Date = 3758144220
+In Projects = "1,"
+Source Window State = "1,241,241,241,17,33,17,0,3,0,0,0,0,0,0,0,223,0,241,33,349,628,1,0,"
+Window Top = 95
+Window Left = 42
+Window Z-Order = 6
+
+[File 0006]
+Path Line0001 = "/c/Users/admin/Surearly_Project/Manager/SMART/Surearly_SMART_Manager_Program_v1."
+Path Line0002 = "8.1_re/Command_Ctrl.c"
+File Type = "CSource"
+Disk Date = 3748297618
+In Projects = "1,"
+Source Window State = "1,352,352,352,63,63,63,0,0,0,0,0,0,0,0,0,334,0,352,63,349,698,1,0,"
+Window Top = 126
+Window Left = 50
+Window Z-Order = 4
+
+[File 0007]
+Path Line0001 = "/c/Users/admin/Surearly_Project/Manager/SMART/Surearly_SMART_Manager_Program_v1."
+Path Line0002 = "8.1_re/QA_Test_Mode.c"
+File Type = "CSource"
+Disk Date = 3748294721
+In Projects = "1,"
+Source Window State = "1,396,396,396,36,36,36,0,0,0,0,0,0,0,0,0,364,0,396,36,349,698,1,0,"
+Window Top = 95
+Window Left = 34
+Window Z-Order = 10
+
+[File 0008]
+Path Line0001 = "/c/Users/admin/Surearly_Project/Manager/SMART/Surearly_SMART_Manager_Program_v1."
+Path Line0002 = "8.1_re/Finished_Goods_Inspection_Mode.h"
+File Type = "Include"
+Disk Date = 3758244280
+In Projects = "1,"
+Source Window State = "1,32,32,32,1,1,1,0,0,0,0,0,0,0,0,0,19,0,32,1,349,698,1,0,"
+Window Top = 250
+Window Left = 122
+Window Z-Order = 7
+
+[File 0009]
+Path Line0001 = "/c/Users/admin/Surearly_Project/Manager/SMART/Surearly_SMART_Manager_Program_v1."
+Path Line0002 = "8.1_re/QA_Setting_Mode.c"
+File Type = "CSource"
+Disk Date = 3747264752
+In Projects = "1,"
+Source Window State = "1,20,20,20,41,41,41,0,0,0,0,0,0,0,0,0,20,0,20,41,349,719,1,0,"
+Window Top = 33
+Window Left = 10
+Window Z-Order = 11
+
+[File 0010]
+Path Line0001 = "/c/Users/admin/Surearly_Project/Manager/SMART/Surearly_SMART_Manager_Program_v1."
+Path Line0002 = "8.1_re/Test_Report.c"
+File Type = "CSource"
+Disk Date = 3732056087
+In Projects = "1,"
+Source Window State = "1,20,20,20,8,8,8,0,0,0,0,0,0,0,0,0,0,0,20,8,349,719,1,0,"
+Window Top = 250
+Window Left = -14
+Window Z-Order = 5
+
+[File 0011]
+Path Line0001 = "/c/Users/admin/Surearly_Project/Manager/SMART/Surearly_SMART_Manager_Program_v1."
+Path Line0002 = "8.1_re/main.h"
+File Type = "Include"
+Disk Date = 3753741529
+In Projects = "1,"
+Source Window State = "1,93,93,93,16,16,16,0,0,0,0,0,0,0,0,0,81,0,93,16,349,719,1,0,"
+Window Top = 126
+Window Left = 58
+Window Z-Order = 13
+
+[File 0012]
+Path Line0001 = "/c/Users/admin/Surearly_Project/Manager/SMART/Surearly_SMART_Manager_Program_v1."
+Path Line0002 = "8.1_re/Process_Inspection_Mode.h"
+File Type = "Include"
+Disk Date = 3758244992
+In Projects = "1,"
+Source Window State = "1,13,13,13,8,22,8,0,3,0,0,0,0,0,0,0,1,0,13,22,349,691,1,0,"
+Window Top = 126
+Window Left = 50
+Window Z-Order = 3
+
+[File 0013]
+Path Line0001 = "/c/Users/admin/Surearly_Project/Manager/SMART/Surearly_SMART_Manager_Program_v1."
+Path Line0002 = "8.1_re/Test_Report.h"
+File Type = "Include"
+Disk Date = 3753741520
+In Projects = "1,"
+Source Window State = "1,38,38,38,4,23,4,0,3,0,0,0,0,0,0,0,0,0,38,23,349,719,1,0,"
+Window Top = 281
+Window Left = 138
+Window Z-Order = 12
+
+[File 0014]
+Path Line0001 = "/c/Users/admin/Surearly_Project/Manager/SMART/Surearly_SMART_Manager_Program_v1."
+Path Line0002 = "8.1_re/Connection_Settings.uir"
 File Type = "User Interface Resource"
 Disk Date = 3753741410
 In Projects = "1,"
@@ -89,18 +201,9 @@ Window Left = -1140
 Window Height = 349
 Window Width = 628
 
-[File 0005]
-Path = "/c/Users/admin/Documents/Git/Sugentech-Backup/Surearly_SMART-GUI/Main_UI.uir"
-File Type = "User Interface Resource"
-Disk Date = 3753925332
-In Projects = "1,"
-Window Top = 157
-Window Left = 66
-Window Height = 349
-Window Width = 579
-
-[File 0006]
-Path = "/c/Users/admin/Documents/Git/Sugentech-Backup/Surearly_SMART-GUI/BLE_Config.c"
+[File 0015]
+Path Line0001 = "/c/Users/admin/Surearly_Project/Manager/SMART/Surearly_SMART_Manager_Program_v1."
+Path Line0002 = "8.1_re/BLE_Config.c"
 File Type = "CSource"
 Disk Date = 3753926649
 In Projects = "1,"
@@ -108,18 +211,9 @@ Source Window State = "1,404,404,404,95,95,95,0,0,0,0,0,0,0,0,0,386,0,404,95,349
 Window Top = 95
 Window Left = 42
 
-[File 0007]
-Path = "/c/Users/admin/Documents/Git/Sugentech-Backup/Surearly_SMART-GUI/Command_Ctrl.c"
-File Type = "CSource"
-Disk Date = 3748297618
-In Projects = "1,"
-Source Window State = "1,70,70,70,54,60,54,0,3,0,0,0,0,0,0,0,43,0,70,60,349,698,1,0,"
-Window Top = 126
-Window Left = 50
-
-[File 0008]
-Path Line0001 = "/c/Users/admin/Documents/Git/Sugentech-Backup/Surearly_SMART-GUI/Connection_Sett"
-Path Line0002 = "ings.c"
+[File 0016]
+Path Line0001 = "/c/Users/admin/Surearly_Project/Manager/SMART/Surearly_SMART_Manager_Program_v1."
+Path Line0002 = "8.1_re/Connection_Settings.c"
 File Type = "CSource"
 Disk Date = 3748559231
 In Projects = "1,"
@@ -127,9 +221,9 @@ Source Window State = "1,58,58,58,26,26,26,0,0,0,0,0,0,0,0,0,43,0,58,26,349,628,
 Window Top = 281
 Window Left = 138
 
-[File 0009]
-Path Line0001 = "/c/Users/admin/Documents/Git/Sugentech-Backup/Surearly_SMART-GUI/Connection_Sett"
-Path Line0002 = "ings_Ctrl.c"
+[File 0017]
+Path Line0001 = "/c/Users/admin/Surearly_Project/Manager/SMART/Surearly_SMART_Manager_Program_v1."
+Path Line0002 = "8.1_re/Connection_Settings_Ctrl.c"
 File Type = "CSource"
 Disk Date = 3753741529
 In Projects = "1,"
@@ -137,17 +231,18 @@ Source Window State = "1,69,69,69,29,35,29,0,3,0,0,0,0,0,0,0,26,0,69,35,349,698,
 Window Top = 64
 Window Left = 26
 
-[File 0010]
-Path Line0001 = "/c/Users/admin/Documents/Git/Sugentech-Backup/Surearly_SMART-GUI/FW_Update_Proce"
-Path Line0002 = "ss.c"
+[File 0018]
+Path Line0001 = "/c/Users/admin/Surearly_Project/Manager/SMART/Surearly_SMART_Manager_Program_v1."
+Path Line0002 = "8.1_re/FW_Update_Process.c"
 File Type = "CSource"
 Disk Date = 3739933403
 In Projects = "1,"
 Source Window State = "1,72,72,72,37,37,37,0,0,0,0,0,0,0,0,0,50,0,72,37,400,600,1,0,"
 Window Top = 31
 
-[File 0011]
-Path = "/c/Users/admin/Documents/Git/Sugentech-Backup/Surearly_SMART-GUI/FW_Update_UI.c"
+[File 0019]
+Path Line0001 = "/c/Users/admin/Surearly_Project/Manager/SMART/Surearly_SMART_Manager_Program_v1."
+Path Line0002 = "8.1_re/FW_Update_UI.c"
 File Type = "CSource"
 Disk Date = 3739925513
 In Projects = "1,"
@@ -155,8 +250,9 @@ Source Window State = "1,19,19,19,12,12,12,0,0,0,0,0,0,0,0,0,19,12,19,12,349,628
 Window Top = 33
 Window Left = 10
 
-[File 0012]
-Path = "/c/Users/admin/Documents/Git/Sugentech-Backup/Surearly_SMART-GUI/parson.c"
+[File 0020]
+Path Line0001 = "/c/Users/admin/Surearly_Project/Manager/SMART/Surearly_SMART_Manager_Program_v1."
+Path Line0002 = "8.1_re/parson.c"
 File Type = "CSource"
 Disk Date = 3680512008
 In Projects = "1,"
@@ -164,9 +260,9 @@ Source Window State = "1,1267,1267,1267,1,1,1,0,0,0,0,0,0,0,0,0,1267,0,1267,1,34
 Window Top = 64
 Window Left = 26
 
-[File 0013]
-Path Line0001 = "/c/Users/admin/Documents/Git/Sugentech-Backup/Surearly_SMART-GUI/Process_Inspect"
-Path Line0002 = "ion_Mode.c"
+[File 0021]
+Path Line0001 = "/c/Users/admin/Surearly_Project/Manager/SMART/Surearly_SMART_Manager_Program_v1."
+Path Line0002 = "8.1_re/Process_Inspection_Mode.c"
 File Type = "CSource"
 Disk Date = 3748294721
 In Projects = "1,"
@@ -174,27 +270,9 @@ Source Window State = "1,370,370,370,20,43,20,0,3,0,0,0,0,0,0,0,320,0,370,43,908
 Window Top = 83
 Window Left = -989
 
-[File 0014]
-Path Line0001 = "/c/Users/admin/Documents/Git/Sugentech-Backup/Surearly_SMART-GUI/QA_Setting_Mode"
-Path Line0002 = ".c"
-File Type = "CSource"
-Disk Date = 3747264752
-In Projects = "1,"
-Source Window State = "1,29,29,29,0,0,0,0,0,0,0,0,0,0,0,0,0,0,29,0,349,719,1,0,"
-Window Top = 33
-Window Left = 10
-
-[File 0015]
-Path = "/c/Users/admin/Documents/Git/Sugentech-Backup/Surearly_SMART-GUI/QA_Test_Mode.c"
-File Type = "CSource"
-Disk Date = 3748294721
-In Projects = "1,"
-Source Window State = "1,244,244,244,5,5,5,0,0,0,0,0,0,0,0,0,234,0,244,5,349,698,1,0,"
-Window Top = 95
-Window Left = 34
-
-[File 0016]
-Path = "/c/Users/admin/Documents/Git/Sugentech-Backup/Surearly_SMART-GUI/Read_PTR_Mode.c"
+[File 0022]
+Path Line0001 = "/c/Users/admin/Surearly_Project/Manager/SMART/Surearly_SMART_Manager_Program_v1."
+Path Line0002 = "8.1_re/Read_PTR_Mode.c"
 File Type = "CSource"
 Disk Date = 3743478691
 In Projects = "1,"
@@ -202,8 +280,9 @@ Source Window State = "1,91,91,91,74,74,74,0,0,0,0,0,0,0,0,0,78,0,91,74,349,733,
 Window Top = 33
 Window Left = 10
 
-[File 0017]
-Path = "/c/Users/admin/Documents/Git/Sugentech-Backup/Surearly_SMART-GUI/Serial_Config.c"
+[File 0023]
+Path Line0001 = "/c/Users/admin/Surearly_Project/Manager/SMART/Surearly_SMART_Manager_Program_v1."
+Path Line0002 = "8.1_re/Serial_Config.c"
 File Type = "CSource"
 Disk Date = 3732056003
 In Projects = "1,"
@@ -211,17 +290,9 @@ Source Window State = "1,53,53,53,67,67,67,0,0,0,0,0,0,0,0,0,0,0,53,67,349,719,1
 Window Top = 343
 Window Left = 170
 
-[File 0018]
-Path = "/c/Users/admin/Documents/Git/Sugentech-Backup/Surearly_SMART-GUI/Test_Report.c"
-File Type = "CSource"
-Disk Date = 3732056087
-In Projects = "1,"
-Source Window State = "1,87,87,87,39,45,39,0,3,0,0,0,0,0,0,0,70,0,87,45,349,719,1,0,"
-Window Top = 250
-Window Left = -14
-
-[File 0019]
-Path = "/c/Users/admin/Documents/Git/Sugentech-Backup/Surearly_SMART-GUI/BLE_Config.h"
+[File 0024]
+Path Line0001 = "/c/Users/admin/Surearly_Project/Manager/SMART/Surearly_SMART_Manager_Program_v1."
+Path Line0002 = "8.1_re/BLE_Config.h"
 File Type = "Include"
 Disk Date = 3748575329
 In Projects = "1,"
@@ -229,18 +300,19 @@ Source Window State = "1,19,19,19,8,24,8,0,3,0,0,0,0,0,0,0,1,0,19,24,349,726,1,0
 Window Top = 64
 Window Left = 26
 
-[File 0020]
-Path = "/c/Users/admin/Documents/Git/Sugentech-Backup/Surearly_SMART-GUI/Command_Ctrl.h"
+[File 0025]
+Path Line0001 = "/c/Users/admin/Surearly_Project/Manager/SMART/Surearly_SMART_Manager_Program_v1."
+Path Line0002 = "8.1_re/Command_Ctrl.h"
 File Type = "Include"
 Disk Date = 3748296831
 In Projects = "1,"
-Source Window State = "1,9,9,9,0,0,0,0,0,0,0,0,0,0,0,0,1,0,9,0,706,845,1,0,"
+Source Window State = "1,26,26,26,4,16,4,0,3,0,0,0,0,0,0,0,1,0,26,16,706,845,1,0,"
 Window Top = 212
-Window Left = 908
+Window Left = 898
 
-[File 0021]
-Path Line0001 = "/c/Users/admin/Documents/Git/Sugentech-Backup/Surearly_SMART-GUI/Connection_Sett"
-Path Line0002 = "ings.h"
+[File 0026]
+Path Line0001 = "/c/Users/admin/Surearly_Project/Manager/SMART/Surearly_SMART_Manager_Program_v1."
+Path Line0002 = "8.1_re/Connection_Settings.h"
 File Type = "Include"
 Disk Date = 3729826328
 In Projects = "1,"
@@ -248,9 +320,9 @@ Source Window State = "1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,349,628,0,0,"
 Window Top = 219
 Window Left = 106
 
-[File 0022]
-Path Line0001 = "/c/Users/admin/Documents/Git/Sugentech-Backup/Surearly_SMART-GUI/Connection_Sett"
-Path Line0002 = "ings_Ctrl.h"
+[File 0027]
+Path Line0001 = "/c/Users/admin/Surearly_Project/Manager/SMART/Surearly_SMART_Manager_Program_v1."
+Path Line0002 = "8.1_re/Connection_Settings_Ctrl.h"
 File Type = "Include"
 Disk Date = 3730068582
 In Projects = "1,"
@@ -258,19 +330,9 @@ Source Window State = "1,5,5,5,41,41,41,0,0,0,0,0,0,0,0,0,0,0,5,41,349,698,1,0,"
 Window Top = 95
 Window Left = 42
 
-[File 0023]
-Path Line0001 = "/c/Users/admin/Documents/Git/Sugentech-Backup/Surearly_SMART-GUI/Finished_Goods_"
-Path Line0002 = "Inspection_Mode.h"
-File Type = "Include"
-Disk Date = 3717384764
-In Projects = "1,"
-Source Window State = "1,11,11,11,8,21,8,0,3,0,0,0,0,0,0,0,1,0,11,21,349,698,1,0,"
-Window Top = 250
-Window Left = 122
-
-[File 0024]
-Path Line0001 = "/c/Users/admin/Documents/Git/Sugentech-Backup/Surearly_SMART-GUI/FW_Update_Proce"
-Path Line0002 = "ss.h"
+[File 0028]
+Path Line0001 = "/c/Users/admin/Surearly_Project/Manager/SMART/Surearly_SMART_Manager_Program_v1."
+Path Line0002 = "8.1_re/FW_Update_Process.h"
 File Type = "Include"
 Disk Date = 3729489983
 In Projects = "1,"
@@ -278,8 +340,9 @@ Source Window State = "1,74,74,74,12,34,12,0,3,0,0,0,0,0,0,0,53,0,74,34,349,691,
 Window Top = 126
 Window Left = 58
 
-[File 0025]
-Path = "/c/Users/admin/Documents/Git/Sugentech-Backup/Surearly_SMART-GUI/FW_Update_UI.h"
+[File 0029]
+Path Line0001 = "/c/Users/admin/Surearly_Project/Manager/SMART/Surearly_SMART_Manager_Program_v1."
+Path Line0002 = "8.1_re/FW_Update_UI.h"
 File Type = "Include"
 Disk Date = 3728357986
 In Projects = "1,"
@@ -287,26 +350,9 @@ Source Window State = "1,18,18,18,16,16,16,0,0,0,0,0,0,0,0,0,0,0,18,16,349,691,1
 Window Top = 157
 Window Left = 74
 
-[File 0026]
-Path = "/c/Users/admin/Documents/Git/Sugentech-Backup/Surearly_SMART-GUI/main.h"
-File Type = "Include"
-Disk Date = 3753741529
-In Projects = "1,"
-Source Window State = "1,126,126,126,21,21,21,0,0,0,0,0,0,0,0,0,85,0,126,21,349,719,1,0,"
-Window Top = 126
-Window Left = 58
-
-[File 0027]
-Path = "/c/Users/admin/Documents/Git/Sugentech-Backup/Surearly_SMART-GUI/Main_UI.h"
-File Type = "Include"
-Disk Date = 3753925333
-In Projects = "1,"
-Source Window State = "1,21,21,21,9,32,9,0,3,0,0,0,0,0,0,0,21,0,21,32,349,628,1,0,"
-Window Top = 95
-Window Left = 42
-
-[File 0028]
-Path = "/c/Users/admin/Documents/Git/Sugentech-Backup/Surearly_SMART-GUI/parson.h"
+[File 0030]
+Path Line0001 = "/c/Users/admin/Surearly_Project/Manager/SMART/Surearly_SMART_Manager_Program_v1."
+Path Line0002 = "8.1_re/parson.h"
 File Type = "Include"
 Disk Date = 3680512028
 In Projects = "1,"
@@ -314,19 +360,9 @@ Source Window State = "1,29,29,29,8,15,15,0,0,0,0,0,0,0,0,0,17,0,28,26,349,716,1
 Window Top = 33
 Window Left = 10
 
-[File 0029]
-Path Line0001 = "/c/Users/admin/Documents/Git/Sugentech-Backup/Surearly_SMART-GUI/Process_Inspect"
-Path Line0002 = "ion_Mode.h"
-File Type = "Include"
-Disk Date = 3747283693
-In Projects = "1,"
-Source Window State = "1,16,16,16,34,34,34,0,0,0,0,0,0,0,0,0,10,0,16,34,349,691,1,0,"
-Window Top = 126
-Window Left = 50
-
-[File 0030]
-Path Line0001 = "/c/Users/admin/Documents/Git/Sugentech-Backup/Surearly_SMART-GUI/QA_Setting_Mode"
-Path Line0002 = ".h"
+[File 0031]
+Path Line0001 = "/c/Users/admin/Surearly_Project/Manager/SMART/Surearly_SMART_Manager_Program_v1."
+Path Line0002 = "8.1_re/QA_Setting_Mode.h"
 File Type = "Include"
 Disk Date = 3703718615
 In Projects = "1,"
@@ -334,8 +370,9 @@ Source Window State = "1,8,8,8,1,1,1,0,0,0,0,2,0,29,0,0,0,0,8,1,349,722,1,0,"
 Window Top = 312
 Window Left = 154
 
-[File 0031]
-Path = "/c/Users/admin/Documents/Git/Sugentech-Backup/Surearly_SMART-GUI/QA_Test_Mode.h"
+[File 0032]
+Path Line0001 = "/c/Users/admin/Surearly_Project/Manager/SMART/Surearly_SMART_Manager_Program_v1."
+Path Line0002 = "8.1_re/QA_Test_Mode.h"
 File Type = "Include"
 Disk Date = 3747975127
 In Projects = "1,"
@@ -343,8 +380,9 @@ Source Window State = "1,31,31,31,43,43,43,0,0,0,0,0,0,0,0,0,0,0,31,43,349,719,1
 Window Top = 219
 Window Left = 106
 
-[File 0032]
-Path = "/c/Users/admin/Documents/Git/Sugentech-Backup/Surearly_SMART-GUI/Read_PTR_Mode.h"
+[File 0033]
+Path Line0001 = "/c/Users/admin/Surearly_Project/Manager/SMART/Surearly_SMART_Manager_Program_v1."
+Path Line0002 = "8.1_re/Read_PTR_Mode.h"
 File Type = "Include"
 Disk Date = 3743473484
 In Projects = "1,"
@@ -352,8 +390,9 @@ Source Window State = "1,16,16,16,12,12,12,0,0,0,0,0,0,0,0,0,0,0,16,12,349,733,1
 Window Top = 95
 Window Left = 42
 
-[File 0033]
-Path = "/c/Users/admin/Documents/Git/Sugentech-Backup/Surearly_SMART-GUI/Serial_Config.h"
+[File 0034]
+Path Line0001 = "/c/Users/admin/Surearly_Project/Manager/SMART/Surearly_SMART_Manager_Program_v1."
+Path Line0002 = "8.1_re/Serial_Config.h"
 File Type = "Include"
 Disk Date = 3708393690
 In Projects = "1,"
@@ -361,19 +400,33 @@ Source Window State = "1,16,16,16,0,0,0,0,0,0,0,0,0,0,0,0,0,0,16,0,349,722,1,0,"
 Window Top = 95
 Window Left = 42
 
-[File 0034]
-Path = "/c/Users/admin/Documents/Git/Sugentech-Backup/Surearly_SMART-GUI/Test_Report.h"
-File Type = "Include"
-Disk Date = 3753741520
-In Projects = "1,"
-Source Window State = "1,13,13,13,19,19,19,0,0,0,0,0,0,0,0,0,0,0,13,19,349,719,1,0,"
-Window Top = 281
-Window Left = 138
-
 [Tab Order]
-Tab 0001 = "/c/Users/admin/Documents/Git/Sugentech-Backup/Surearly_SMART-GUI/Main_UI.c"
-Tab 0002 Line0001 = "/c/Users/admin/Documents/Git/Sugentech-Backup/Surearly_SMART-GUI/SW_Version_Info"
-Tab 0002 Line0002 = ".h"
+Tab 0001 Line0001 = "/c/Users/admin/Surearly_Project/Manager/SMART/Surearly_SMART_Manager_Program_v1."
+Tab 0001 Line0002 = "8.1_re/Main_UI.c"
+Tab 0002 Line0001 = "/c/Users/admin/Surearly_Project/Manager/SMART/Surearly_SMART_Manager_Program_v1."
+Tab 0002 Line0002 = "8.1_re/SW_Version_Info.h"
+Tab 0003 Line0001 = "/c/Users/admin/Surearly_Project/Manager/SMART/Surearly_SMART_Manager_Program_v1."
+Tab 0003 Line0002 = "8.1_re/Main_UI.uir"
+Tab 0004 Line0001 = "/c/Users/admin/Surearly_Project/Manager/SMART/Surearly_SMART_Manager_Program_v1."
+Tab 0004 Line0002 = "8.1_re/Main_UI.h"
+Tab 0005 Line0001 = "/c/Users/admin/Surearly_Project/Manager/SMART/Surearly_SMART_Manager_Program_v1."
+Tab 0005 Line0002 = "8.1_re/Finished_Goods_Inspection_Mode.c"
+Tab 0006 Line0001 = "/c/Users/admin/Surearly_Project/Manager/SMART/Surearly_SMART_Manager_Program_v1."
+Tab 0006 Line0002 = "8.1_re/Command_Ctrl.c"
+Tab 0007 Line0001 = "/c/Users/admin/Surearly_Project/Manager/SMART/Surearly_SMART_Manager_Program_v1."
+Tab 0007 Line0002 = "8.1_re/Test_Report.c"
+Tab 0008 Line0001 = "/c/Users/admin/Surearly_Project/Manager/SMART/Surearly_SMART_Manager_Program_v1."
+Tab 0008 Line0002 = "8.1_re/Test_Report.h"
+Tab 0009 Line0001 = "/c/Users/admin/Surearly_Project/Manager/SMART/Surearly_SMART_Manager_Program_v1."
+Tab 0009 Line0002 = "8.1_re/Process_Inspection_Mode.h"
+Tab 0010 Line0001 = "/c/Users/admin/Surearly_Project/Manager/SMART/Surearly_SMART_Manager_Program_v1."
+Tab 0010 Line0002 = "8.1_re/QA_Setting_Mode.c"
+Tab 0011 Line0001 = "/c/Users/admin/Surearly_Project/Manager/SMART/Surearly_SMART_Manager_Program_v1."
+Tab 0011 Line0002 = "8.1_re/QA_Test_Mode.c"
+Tab 0012 Line0001 = "/c/Users/admin/Surearly_Project/Manager/SMART/Surearly_SMART_Manager_Program_v1."
+Tab 0012 Line0002 = "8.1_re/Finished_Goods_Inspection_Mode.h"
+Tab 0013 Line0001 = "/c/Users/admin/Surearly_Project/Manager/SMART/Surearly_SMART_Manager_Program_v1."
+Tab 0013 Line0002 = "8.1_re/main.h"
 
 [Default Build Config 0001 Debug]
 Generate Browse Info = True
@@ -486,7 +539,7 @@ Watch Expression = "rootValue"
 
 [Distributions]
 Active Index = 1
-AbsCDSPath 0001 Line0001 = "/c/Users/admin/Documents/Git/Sugentech-Backup/Surearly_SMART-GUI/Distribution_se"
-AbsCDSPath 0001 Line0002 = "tting.cds"
+AbsCDSPath 0001 Line0001 = "/c/Users/admin/Surearly_Project/Manager/SMART/Surearly_SMART_Manager_Program_v1."
+AbsCDSPath 0001 Line0002 = "8.1_re/Distribution_setting.cds"
 RelCDSPath 0001 = "Distribution_setting.cds"
 

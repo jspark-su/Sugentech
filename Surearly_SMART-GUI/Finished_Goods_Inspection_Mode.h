@@ -21,8 +21,12 @@
 #define STD_STICK_SSN1          5
 #define STD_STICK_ERR           9
 
-#define FGI_STD_STICK_READ_START    1
-#define FGI_STD_STICK_READ_END      2
+#define FGI_CALIBRATION_MODE_START		1
+#define FGI_CALIBRATION_STICK_CHECK		2
+#define FGI_CALIBRATION_START 		    3
+#define FGI_CALIBRATION_STATE			4
+#define FGI_STD_STICK_READ_START		5
+#define FGI_STD_STICK_READ_END			6
 
 
 typedef struct
@@ -54,6 +58,10 @@ char FGI_Checklist_Items_Inspection(int panel);
 
 void FGI_Read_Std_Stick_Process();
 void FGI_Read_Std_Stick_Init(int panel);
+void FGI_Calibration_Mode_Start(int panel);
+void FGI_Calibration_Stick_Check(int panel);
+void FGI_Calibration_Start(int panel);
+void FGI_Calibration_State(int panel);
 void FGI_Read_Std_Stick_Start(int panel);
 void FGI_Read_Std_Stick_End(int panel);
 void FGI_Compare_Ref_and_Measure_Value(int panel, int std_stick_num);

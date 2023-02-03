@@ -1,3 +1,4 @@
+#include <userint.h>
 #include "Connection_Settings.h"
 //#include <userint.h>
 #include "Main_UI.h"
@@ -296,7 +297,7 @@ int CVICALLBACK BT_SSM1_DATA_READ (int panel, int control, int event,
         case EVENT_COMMIT:
             if(BLE_FLAG.connect_status == BLE_CONNECTED)
             {
-                SetCtrlVal(tabPanel_FGI, TABPANEL_2_LOG_MONITOR_FGI, "\r\n > SSM1 표준 스틱 측정중..\r\n");
+                SetCtrlVal(tabPanel_FGI, TABPANEL_2_LOG_MONITOR_FGI, "\r\n > SSM1 표준 스틱 측정 중..\r\n");
                 std_stick_number = STD_STICK_SSM1;
                 FGI_VALIABLE.process = START;
                 FGI_Next_Process(FGI_STD_STICK_READ_START);
@@ -317,7 +318,7 @@ int CVICALLBACK BT_SSM2_DATA_READ (int panel, int control, int event,
         case EVENT_COMMIT:
             if(BLE_FLAG.connect_status == BLE_CONNECTED)
             {
-                SetCtrlVal(tabPanel_FGI, TABPANEL_2_LOG_MONITOR_FGI, "\r\n > SSM2 표준 스틱 측정중..\r\n");
+                SetCtrlVal(tabPanel_FGI, TABPANEL_2_LOG_MONITOR_FGI, "\r\n > SSM2 표준 스틱 측정 중..\r\n");
                 std_stick_number = STD_STICK_SSM2;
                 FGI_VALIABLE.process = START;
                 FGI_Next_Process(FGI_STD_STICK_READ_START);
@@ -338,7 +339,7 @@ int CVICALLBACK BT_SSM3_DATA_READ (int panel, int control, int event,
         case EVENT_COMMIT:
             if(BLE_FLAG.connect_status == BLE_CONNECTED)
             {
-                SetCtrlVal(tabPanel_FGI, TABPANEL_2_LOG_MONITOR_FGI, "\r\n > SSM3 표준 스틱 측정중..\r\n");
+                SetCtrlVal(tabPanel_FGI, TABPANEL_2_LOG_MONITOR_FGI, "\r\n > SSM3 표준 스틱 측정 중..\r\n");
                 std_stick_number = STD_STICK_SSM3;
                 FGI_VALIABLE.process = START;
                 FGI_Next_Process(FGI_STD_STICK_READ_START);
@@ -359,7 +360,7 @@ int CVICALLBACK BT_SSM4_DATA_READ (int panel, int control, int event,
         case EVENT_COMMIT:
             if(BLE_FLAG.connect_status == BLE_CONNECTED)
             {
-                SetCtrlVal(tabPanel_FGI, TABPANEL_2_LOG_MONITOR_FGI, "\r\n > SSM4 표준 스틱 측정중..\r\n");
+                SetCtrlVal(tabPanel_FGI, TABPANEL_2_LOG_MONITOR_FGI, "\r\n > SSM4 표준 스틱 측정 중..\r\n");
                 std_stick_number = STD_STICK_SSM4;
                 FGI_VALIABLE.process = START;
                 FGI_Next_Process(FGI_STD_STICK_READ_START);
@@ -380,7 +381,7 @@ int CVICALLBACK BT_SSM5_DATA_READ (int panel, int control, int event,
         case EVENT_COMMIT:
             if(BLE_FLAG.connect_status == BLE_CONNECTED)
             {
-                SetCtrlVal(tabPanel_FGI, TABPANEL_2_LOG_MONITOR_FGI, "\r\n > SSM5 표준 스틱 측정중..\r\n");
+                SetCtrlVal(tabPanel_FGI, TABPANEL_2_LOG_MONITOR_FGI, "\r\n > SSM5 표준 스틱 측정 중..\r\n");
                 std_stick_number = STD_STICK_SSM5;
                 FGI_VALIABLE.process = START;
                 FGI_Next_Process(FGI_STD_STICK_READ_START);
@@ -393,6 +394,31 @@ int CVICALLBACK BT_SSM5_DATA_READ (int panel, int control, int event,
     return 0;
 }
 
+
+
+int CVICALLBACK BT_SSN1_DATA_CAL (int panel, int control, int event,
+								  void *callbackData, int eventData1, int eventData2)
+{
+	switch (event)
+	{
+		case EVENT_COMMIT:
+            if(BLE_FLAG.connect_status == BLE_CONNECTED)
+            {
+                //SetCtrlVal(tabPanel_FGI, TABPANEL_2_LOG_MONITOR_FGI, "\r\n > \r\n");
+                std_stick_number = STD_STICK_SSN1;
+                FGI_VALIABLE.process = START;
+                FGI_Next_Process(FGI_CALIBRATION_MODE_START);
+            }
+            else{
+                SetCtrlVal(tabPanel_FGI, TABPANEL_2_LOG_MONITOR_FGI, "\r\n > 오류: 블루투스 연결 후 다시 시도해주세요.\r\n");
+            }
+            break;
+	}
+	return 0;
+}
+
+
+
 int CVICALLBACK BT_SSN1_DATA_READ (int panel, int control, int event,
                                    void *callbackData, int eventData1, int eventData2)
 {
@@ -401,7 +427,7 @@ int CVICALLBACK BT_SSN1_DATA_READ (int panel, int control, int event,
         case EVENT_COMMIT:
             if(BLE_FLAG.connect_status == BLE_CONNECTED)
             {
-                SetCtrlVal(tabPanel_FGI, TABPANEL_2_LOG_MONITOR_FGI, "\r\n > SSN1 표준 스틱 측정중..\r\n");
+                SetCtrlVal(tabPanel_FGI, TABPANEL_2_LOG_MONITOR_FGI, "\r\n > SSN1 표준 스틱 측정 중..\r\n");
                 std_stick_number = STD_STICK_SSN1;
                 FGI_VALIABLE.process = START;
                 FGI_Next_Process(FGI_STD_STICK_READ_START);
