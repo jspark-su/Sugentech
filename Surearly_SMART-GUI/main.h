@@ -40,6 +40,12 @@
 #define BT_OFF      0
 #define BT_ON		1
 
+#define UNCHECKED	0	// Check Box Unchecked
+#define CHECKED		1	// Check Box checked
+
+#define LED_OFF		0
+#define LED_ON		1
+
 #define DEV_SERIAL_INIT_STR     "TEST-RND-"
 
 typedef struct

@@ -20,15 +20,23 @@ void BLE_Scan_Start()
 	{
 		Serial_Write_String("AT+STARTSCAN\r"); //BLE master dongle에 scan 시작 명령 전송
 		BLE_FLAG.ble_scan_state = BLE_SCAN_START; //5초간 scan 시작
+		SetCtrlVal(subPanel, SUB_PANEL_MONITOR_CON_SET, " > 기기 검색 중 ");
 	}
 }
 
 void BLE_Scan_Process(int panel)
 { //BLE_FLAG.ble_scan_state == BLE_SCAN_START일 경우 1 msec timer에서 BLE_RX.scan_time 값 증가 -> 기기 검색 완료 또는 5초 시간 초과 시 scan 중지
+	if((BLE_RX.scan_time == 1000) || (BLE_RX.scan_time == 2000) || (BLE_RX.scan_time == 3000) || (BLE_RX.scan_time == 4000))
+	{
+		SetCtrlVal(subPanel, SUB_PANEL_MONITOR_CON_SET, ".");
+	}
+	
 	if((BLE_FLAG.ble_scan_state == BLE_SCAN_START) && (BLE_RX.scan_time >= BLE_SCANNING_TIME))
 	{
 		Serial_Write_String("AT+STOPSCAN\r");
 		SetCtrlVal(panel,SUB_PANEL_sBT_BLE_SCAN, 0);
+		SetCtrlVal(subPanel, SUB_PANEL_MONITOR_CON_SET, ".\r\n");
+		SetCtrlVal(subPanel, SUB_PANEL_MONITOR_CON_SET, " - 기기 전원 확인 후 다시 시도해주세요.\n\n\r");
 		BLE_FLAG.ble_scan_state = BLE_SCAN_END;
 		BLE_RX.scan_time = 0;
 	}

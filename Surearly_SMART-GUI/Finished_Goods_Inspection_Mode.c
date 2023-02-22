@@ -1,17 +1,28 @@
 #include "main.h"
 
+/* Private typedef -----------------------------------------------------------*/
+/* Private define ------------------------------------------------------------*/
+#define COMPLETED	0
+#define FAIL		1
+
+/* Private variables ---------------------------------------------------------*/
 FGI_VALIABLE_Typedef    FGI_VALIABLE;
 INSPECTION_ITEMS_Typedef    INSPECTION_ITEMS;
 
 char std_stick_number = 0;
+char FGI_CAL_Result = 0;
+
+/* Private function prototypes -----------------------------------------------*/
+void FGI_CAL_Stop();
+void SetResultLine(char count);
 
 // xx
 char buf_debug[100] = {0};
-
 // xx
 
-
-
+/* ============================================================================
+			##### Finished Goods Inspection Mode functions #####
+ =============================================================================*/
 void FGI_Read_Checklist_Item_Status(int panel)
 {
     char checklist_item[6][3] = {0,};
@@ -78,28 +89,28 @@ void FGI_Read_Checklist_Item_Status(int panel)
 }
 
 
-void FGI_Read_Reference_Value_Range(int panel, int* ref_value[6][2])
+void FGI_Read_Reference_Value_Range(int panel, int value[6][2])
 {
-    GetCtrlVal (panel, TABPANEL_2_INPUT_SSM1_RANG_ABOVE, &ref_value[0][0]);
-    GetCtrlVal (panel, TABPANEL_2_INPUT_SSM1_RANG_BELOW, &ref_value[0][1]);
+    GetCtrlVal (panel, TABPANEL_2_INPUT_SSM1_RANG_ABOVE, &value[0][0]);
+    GetCtrlVal (panel, TABPANEL_2_INPUT_SSM1_RANG_BELOW, &value[0][1]);
     
-    GetCtrlVal (panel, TABPANEL_2_INPUT_SSM2_RANG_ABOVE, &ref_value[1][0]);
-    GetCtrlVal (panel, TABPANEL_2_INPUT_SSM2_RANG_BELOW, &ref_value[1][1]);
+    GetCtrlVal (panel, TABPANEL_2_INPUT_SSM2_RANG_ABOVE, &value[1][0]);
+    GetCtrlVal (panel, TABPANEL_2_INPUT_SSM2_RANG_BELOW, &value[1][1]);
     
-    GetCtrlVal (panel, TABPANEL_2_INPUT_SSM3_RANG_ABOVE, &ref_value[2][0]);
-    GetCtrlVal (panel, TABPANEL_2_INPUT_SSM3_RANG_BELOW, &ref_value[2][1]);
+    GetCtrlVal (panel, TABPANEL_2_INPUT_SSM3_RANG_ABOVE, &value[2][0]);
+    GetCtrlVal (panel, TABPANEL_2_INPUT_SSM3_RANG_BELOW, &value[2][1]);
     
-    GetCtrlVal (panel, TABPANEL_2_INPUT_SSM4_RANG_ABOVE, &ref_value[3][0]);
-    GetCtrlVal (panel, TABPANEL_2_INPUT_SSM4_RANG_BELOW, &ref_value[3][1]);
+    GetCtrlVal (panel, TABPANEL_2_INPUT_SSM4_RANG_ABOVE, &value[3][0]);
+    GetCtrlVal (panel, TABPANEL_2_INPUT_SSM4_RANG_BELOW, &value[3][1]);
     
-    GetCtrlVal (panel, TABPANEL_2_INPUT_SSM5_RANG_ABOVE, &ref_value[4][0]);
-    GetCtrlVal (panel, TABPANEL_2_INPUT_SSM5_RANG_BELOW, &ref_value[4][1]);
+    GetCtrlVal (panel, TABPANEL_2_INPUT_SSM5_RANG_ABOVE, &value[4][0]);
+    GetCtrlVal (panel, TABPANEL_2_INPUT_SSM5_RANG_BELOW, &value[4][1]);
     
-    GetCtrlVal (panel, TABPANEL_2_INPUT_SSN1_RANG_ABOVE, &ref_value[5][0]);
-    GetCtrlVal (panel, TABPANEL_2_INPUT_SSN1_RANG_BELOW, &ref_value[5][1]);    
+    GetCtrlVal (panel, TABPANEL_2_INPUT_SSN1_RANG_ABOVE, &value[5][0]);
+    GetCtrlVal (panel, TABPANEL_2_INPUT_SSN1_RANG_BELOW, &value[5][1]);    
 }
 
-void FGI_Read_Reference_Level(int panel, int* ref_level[6])
+void FGI_Read_Reference_Level(int panel, int ref_level[6])
 {
     GetCtrlVal (panel, TABPANEL_2_INPUT_REF_SSM1_LEVEL, &ref_level[0]);
     GetCtrlVal (panel, TABPANEL_2_INPUT_REF_SSM2_LEVEL, &ref_level[1]);
@@ -109,7 +120,7 @@ void FGI_Read_Reference_Level(int panel, int* ref_level[6])
     GetCtrlVal (panel, TABPANEL_2_INPUT_REF_SSN1_LEVEL, &ref_level[5]);   
 }
 
-void FGI_Read_Reference_Result(int panel, int* ref_rslt[6])
+void FGI_Read_Reference_Result(int panel, int ref_rslt[6])
 {
     char ref_rslt_str[6][4] = {0,};
     char i = 0;
@@ -142,12 +153,31 @@ void FGI_Read_Reference_Result(int panel, int* ref_rslt[6])
     }
 }
 
-void FGI_Clear_Items(int panel)
+void FGI_Clear_Checkbox(int panel)
 {
     int checkbox_appro_index[] = {TABPANEL_2_INS_APPRO_CHKBOX1, TABPANEL_2_INS_APPRO_CHKBOX2, TABPANEL_2_INS_APPRO_CHKBOX3, TABPANEL_2_INS_APPRO_CHKBOX4, TABPANEL_2_INS_APPRO_CHKBOX5};
-    
     int checkbox_inappro_index[] = {TABPANEL_2_INS_INAPPRO_CHKBOX1, TABPANEL_2_INS_INAPPRO_CHKBOX2, TABPANEL_2_INS_INAPPRO_CHKBOX3, TABPANEL_2_INS_INAPPRO_CHKBOX4, TABPANEL_2_INS_INAPPRO_CHKBOX5};
-    
+	
+    int idx = 0;
+    for(idx = 0; idx < 5; idx++)
+    {
+        if(idx < 4) //검사 항목 1 ~ 4는 항목 초기화 진행 시 부적합은 체크 해제, 적합은 체크 활성화 함
+        {
+            SetCtrlVal (panel, checkbox_appro_index[idx], CHECKED);
+            SetCtrlVal (panel, checkbox_inappro_index[idx], UNCHECKED);
+        }
+        else //검사 항목 5는 적합, 부적합 모두 체크 해제함 
+        {
+            SetCtrlVal (panel, checkbox_appro_index[idx], UNCHECKED);
+            SetCtrlVal (panel, checkbox_inappro_index[idx], UNCHECKED);
+        }
+    }
+}
+
+
+void FGI_Clear_Result(int panel)
+{	
+	// 측정값 Reset
     int rawdata_content_index[] = {TABPANEL_2_INPUT_MEA_SSM1_RAW, TABPANEL_2_INPUT_MEA_SSM2_RAW, TABPANEL_2_INPUT_MEA_SSM3_RAW, 
                                    TABPANEL_2_INPUT_MEA_SSM4_RAW, TABPANEL_2_INPUT_MEA_SSM5_RAW, TABPANEL_2_INPUT_MEA_SSN1_RAW};
     int result_content_index[] = {TABPANEL_2_INPUT_MEA_SSM1_RSLT, TABPANEL_2_INPUT_MEA_SSM2_RSLT, TABPANEL_2_INPUT_MEA_SSM3_RSLT,
@@ -158,26 +188,21 @@ void FGI_Clear_Items(int panel)
                              TABPANEL_2_SSM4_RSLT_LED, TABPANEL_2_SSM5_RSLT_LED, TABPANEL_2_SSN1_RSLT_LED};
     
     int idx = 0;
-    for(idx = 0; idx < 5; idx++)
-    {
-        if(idx < 4) //검사 항목 1 ~ 4는 항목 초기화 진행 시 부적합은 체크 해제, 적합은 체크 활성화 함
-        {
-            SetCtrlVal (panel, checkbox_appro_index[idx], 1);
-            SetCtrlVal (panel, checkbox_inappro_index[idx], 0);
-        }
-        else //검사 항목 5는 적합, 부적합 모두 체크 해제함 
-        {
-            SetCtrlVal (panel, checkbox_appro_index[idx], 0);
-            SetCtrlVal (panel, checkbox_inappro_index[idx], 0);
-        }
-    }
-    for(idx = 0; idx < 6; idx++){
+	
+    for(idx = 0; idx < 6; idx++)
+	{
         SetCtrlVal (panel, rawdata_content_index[idx], 0);
         SetCtrlVal (panel, result_content_index[idx], 0);
         SetCtrlVal (panel, level_content_index[idx], 0);
         SetCtrlVal (panel, result_led_index[idx], 0);
     }
-    SetCtrlVal(panel, TABPANEL_2_LOG_MONITOR_FGI, "\r\n > 항목 초기화 완료.\r\n");
+	
+	// 적합/부적합 Reset
+	SetCtrlVal (panel, TABPANEL_2_INS_APPRO_CHKBOX5, UNCHECKED);
+	SetCtrlVal (panel, TABPANEL_2_INS_INAPPRO_CHKBOX5, UNCHECKED);
+	
+	// 캘리브레이션 결과 LED Off
+	SetCtrlVal (panel, TABPANEL_2_CAL_RSLT_LED, LED_OFF);
 }
 
 char FGI_Checklist_Items_Inspection(int panel)
@@ -284,6 +309,9 @@ void FGI_Calibration_Mode_Start(int panel)
 {
 	if(FGI_VALIABLE.one_time_process == RESET)
 	{
+		// 검사항목 5번, 6번 초기화
+		FGI_Clear_Result(panel);
+		
 		FGI_VALIABLE.one_time_process = SET;
 		API_Tx_Command_Process(CMD_PRODUCT_MODE_START);
 	}
@@ -307,6 +335,7 @@ void FGI_Calibration_Mode_Start(int panel)
 			else 
 			{
 				SetCtrlVal(panel, TABPANEL_2_LOG_MONITOR_FGI, "\r\n 오류: 기기 전원, 블루투스 상태를 확인하십시오.\r\n");
+				FGI_CAL_Stop();
 				FGI_Stop();
 			}
 		}
@@ -327,14 +356,17 @@ void FGI_Calibration_Stick_Check(int panel)
 	{
 		if((stick_state_check == STICK_INSERTED) && (calibration_proc_state == STATE_NONE))
 		{
+			SetResultLine(FGI_VALIABLE.cmd_retry_count);
 			SetCtrlVal(panel, TABPANEL_2_LOG_MONITOR_FGI, " [OK]\r\n");
 			FGI_Next_Process(FGI_CALIBRATION_START);
 		}
 		else //STICK_EJECTED
 		{
-			SetCtrlVal(panel, TABPANEL_9_MONITOR_QA_TEST, " [Fail]\r\n");
-			SetCtrlVal(panel, TABPANEL_9_MONITOR_QA_TEST, " - 오류: 캘리브레이션 스틱 분리\r\n");
-			SetCtrlVal(panel, TABPANEL_9_MONITOR_QA_TEST, " - 오류: 캘리브레이션 스틱 삽입 후 설정을 재시작하십시오.\n\n");
+			SetResultLine(FGI_VALIABLE.cmd_retry_count);
+			SetCtrlVal(panel, TABPANEL_2_LOG_MONITOR_FGI, " [Fail]\r\n");
+			SetCtrlVal(panel, TABPANEL_2_LOG_MONITOR_FGI, " - 오류: 캘리브레이션 스틱 분리\r\n");
+			SetCtrlVal(panel, TABPANEL_2_LOG_MONITOR_FGI, " - 오류: 캘리브레이션 스틱 삽입 후 설정을 재시작하십시오.\r\n");
+			FGI_CAL_Stop();
 			FGI_Stop();
 		}
 	}
@@ -349,13 +381,15 @@ void FGI_Calibration_Stick_Check(int panel)
 				API_Tx_Command_Process(CMD_CALIBRATION_STICK_CHECK);
 				FGI_VALIABLE.cmd_retry_count++;
 				
-				SetCtrlVal(panel, TABPANEL_2_LOG_MONITOR_FGI, "-");
+				if(FGI_VALIABLE.cmd_retry_count % 2 == 0) SetCtrlVal(panel, TABPANEL_2_LOG_MONITOR_FGI, "-");
 			}
 			else 
 			{
+				SetResultLine(FGI_VALIABLE.cmd_retry_count);
 				SetCtrlVal(panel, TABPANEL_2_LOG_MONITOR_FGI, " [Fail]\r\n");
-				SetCtrlVal(panel, TABPANEL_2_LOG_MONITOR_FGI, " - 오류: 캘리브레이션 스틱 삽입 후 재시작하십시오.\r\n");
-        		FGI_Stop();
+				SetCtrlVal(panel, TABPANEL_2_LOG_MONITOR_FGI, " - 오류: 블루투스 연결을 확인해주십시오.\r\n");
+        		FGI_CAL_Stop();
+				FGI_Stop();
 			}
 		}
 	}	
@@ -374,6 +408,7 @@ void FGI_Calibration_Start(int panel)
 	
 	if((rx_msg_check == NORMAL_MESSAGE) && ((rx_msg_function == CMD_CALIBRATION_START) || (rx_msg_function == CMD_CALIBRATION_STATE_CHECK)))
 	{
+		SetResultLine(FGI_VALIABLE.cmd_retry_count);
 		SetCtrlVal(panel, TABPANEL_2_LOG_MONITOR_FGI, " [OK]\r\n");
 		FGI_Next_Process(FGI_CALIBRATION_STATE);
 	}
@@ -388,12 +423,14 @@ void FGI_Calibration_Start(int panel)
 				API_Tx_Command_Process(CMD_CALIBRATION_START);
 				FGI_VALIABLE.cmd_retry_count++;
 				
-				SetCtrlVal(panel, TABPANEL_2_LOG_MONITOR_FGI, "-");
+				if(FGI_VALIABLE.cmd_retry_count % 2 == 0) SetCtrlVal(panel, TABPANEL_2_LOG_MONITOR_FGI, "-");
 			}
 			else 
 			{
+				SetResultLine(FGI_VALIABLE.cmd_retry_count);
 				SetCtrlVal(panel, TABPANEL_2_LOG_MONITOR_FGI, " [Fail]\r\n");
 				SetCtrlVal(panel, TABPANEL_2_LOG_MONITOR_FGI, " - 오류: 블루투스 연결을 확인해주십시오.\r\n");
+				FGI_CAL_Stop();
         		FGI_Stop();
 			}
 		}
@@ -416,25 +453,46 @@ void FGI_Calibration_State(int panel)
 		{
 			if(calibration_proc_state == STATE_COMPLETE)
 			{
+				SetCtrlAttribute (panel, TABPANEL_2_CAL_RSLT_LED, ATTR_ON_COLOR, VAL_GREEN);
+				SetCtrlVal (panel, TABPANEL_2_CAL_RSLT_LED, LED_ON);
+				SetCtrlVal(panel, TABPANEL_2_BT_SSN1_CAL, BT_OFF);
+				
+				SetResultLine(FGI_VALIABLE.cmd_retry_count);
 				SetCtrlVal(panel, TABPANEL_2_LOG_MONITOR_FGI, " [Completed]\r\n");
 	            //SET_RESULT.led_calibration = TR_PASS;
-				//FGI_Next_Process(FGI_STD_STICK_READ_START);
-				FGI_Stop();
+				
+				FGI_CAL_Result = COMPLETED;
+				
+				int CheckState;
+				GetCtrlVal (panel, TABPANEL_2_CB_SSN1_READ, &CheckState);
+				if(CheckState == CHECKED)
+				{
+					SetCtrlVal(panel, TABPANEL_2_LOG_MONITOR_FGI, "\r\n > SSN1 표준 스틱 측정 중..\r\n");
+					FGI_Next_Process(FGI_STD_STICK_READ_START);
+				}
+				else // UNCHECKED
+				{
+					FGI_Stop();
+				}
 			}
 			else if(calibration_proc_state == STATE_FAIL)
 			{
+				SetResultLine(FGI_VALIABLE.cmd_retry_count);
 				SetCtrlVal(panel, TABPANEL_2_LOG_MONITOR_FGI, " [Fail]\r\n");
 				SetCtrlVal(panel, TABPANEL_2_LOG_MONITOR_FGI, " - 오류: 기기의 광학부 상태를 점검해주십시오.\n");
 				SetCtrlVal(panel, TABPANEL_2_LOG_MONITOR_FGI, " - 오류: 기기 상태 확인 후 설정을 재시작하십시오.\n");
 		        //SET_RESULT.led_calibration = TR_FAIL;
+				FGI_CAL_Stop();
 				FGI_Stop();
 			}
 			else {}
 		}
 		else
 		{
+			SetResultLine(FGI_VALIABLE.cmd_retry_count);
 			SetCtrlVal(panel, TABPANEL_2_LOG_MONITOR_FGI, " [Stick Eject]\r\n");
 			SetCtrlVal(panel, TABPANEL_2_LOG_MONITOR_FGI, " - 오류: 캘리브레이션 스틱이 삽입되지 않았습니다.\r\n");
+			FGI_CAL_Stop();
     		FGI_Stop();
 		}
 	}
@@ -442,28 +500,23 @@ void FGI_Calibration_State(int panel)
 	{
 		FGI_VALIABLE.cmd_retry_timer++;
 		if(FGI_VALIABLE.cmd_retry_timer >= CMD_RETRY_TIME)
-		{
-			
-					// xx
-					//sprintf(buf_debug, ".%d", FGI_VALIABLE.cmd_retry_count);
-					//SetCtrlVal(panel, TABPANEL_2_LOG_MONITOR_FGI, buf_debug);
-					// xx
-					
+		{	
 			FGI_VALIABLE.cmd_retry_timer = 0;		
 			if(FGI_VALIABLE.cmd_retry_count < CMD_RETRY_COUNT_NUM)
 			{
 				API_Tx_Command_Process(CMD_CALIBRATION_STATE_CHECK);
 				FGI_VALIABLE.cmd_retry_count++;
-				
 
-				SetCtrlVal(panel, TABPANEL_2_LOG_MONITOR_FGI, "/");
+				if(FGI_VALIABLE.cmd_retry_count % 2 == 0) SetCtrlVal(panel, TABPANEL_2_LOG_MONITOR_FGI, "-");
 			}
 			else 
 			{
+				SetResultLine(FGI_VALIABLE.cmd_retry_count);
 				SetCtrlVal(panel, TABPANEL_2_LOG_MONITOR_FGI, " [Fail]\r\n");
 				SetCtrlVal(panel, TABPANEL_2_LOG_MONITOR_FGI, " - 오류: 기기의 광학부 상태를 점검해주십시오.\r\n");
 				SetCtrlVal(panel, TABPANEL_2_LOG_MONITOR_FGI, " - 기기 상태 확인 후 설정을 재시작하십시오.\r\n");
 				//SET_RESULT.led_calibration = TR_FAIL;
+				FGI_CAL_Stop();
         		FGI_Stop();
 			}
 		}
@@ -686,4 +739,62 @@ void FGI_Stop()
 	rx_msg_function = CMD_NONE;
 	qa_stick_check = 0;
 	qa_proc_state = 0;
+}
+
+void FGI_CAL_Stop()
+{
+	FGI_CAL_Result = FAIL;
+	
+	// 캘리브레이션 시작 버튼 - Reset
+	SetCtrlVal(tabPanel_FGI, TABPANEL_2_BT_SSN1_CAL, BT_OFF);
+	
+	// 캘리브레이션 결과 LED - RED 점등
+	SetCtrlAttribute (tabPanel_FGI, TABPANEL_2_CAL_RSLT_LED, ATTR_ON_COLOR, VAL_RED);
+	SetCtrlVal (tabPanel_FGI, TABPANEL_2_CAL_RSLT_LED, LED_ON);
+	
+	// 적합/부적합 체크박스 - 부적합 체크
+	SetCtrlVal (tabPanel_FGI, TABPANEL_2_INS_APPRO_CHKBOX5, UNCHECKED);
+	SetCtrlVal (tabPanel_FGI, TABPANEL_2_INS_INAPPRO_CHKBOX5, CHECKED);
+}
+
+
+void SetResultLine(char count)
+{
+	int value = count / 2;
+	
+	switch(value)
+	{
+		case 0:
+			SetCtrlVal(tabPanel_FGI, TABPANEL_2_LOG_MONITOR_FGI, "----------");
+			break;
+		case 1:
+			SetCtrlVal(tabPanel_FGI, TABPANEL_2_LOG_MONITOR_FGI, "---------");
+			break;
+		case 2:
+			SetCtrlVal(tabPanel_FGI, TABPANEL_2_LOG_MONITOR_FGI, "--------");
+			break;
+		case 3:
+			SetCtrlVal(tabPanel_FGI, TABPANEL_2_LOG_MONITOR_FGI, "-------");
+			break;
+		case 4:
+			SetCtrlVal(tabPanel_FGI, TABPANEL_2_LOG_MONITOR_FGI, "------");
+			break;
+		case 5:
+			SetCtrlVal(tabPanel_FGI, TABPANEL_2_LOG_MONITOR_FGI, "-----");
+			break;
+		case 6:
+			SetCtrlVal(tabPanel_FGI, TABPANEL_2_LOG_MONITOR_FGI, "----");
+			break;
+		case 7:
+			SetCtrlVal(tabPanel_FGI, TABPANEL_2_LOG_MONITOR_FGI, "---");
+			break;
+		case 8:
+			SetCtrlVal(tabPanel_FGI, TABPANEL_2_LOG_MONITOR_FGI, "--");
+			break;
+		case 9:
+			SetCtrlVal(tabPanel_FGI, TABPANEL_2_LOG_MONITOR_FGI, "-");
+			break;
+		default:
+			break;
+	}
 }

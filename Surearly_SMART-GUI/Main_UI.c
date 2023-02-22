@@ -15,6 +15,10 @@ int tabPanel_RP;
 
 DATA_BANK_TypeDef DATA_BANK;
 
+// xx
+char buf_debug_main[100] = {0};
+// xx
+
 int main (int argc, char *argv[])
 {
 	if (InitCVIRTE (0, argv, 0) == 0)
@@ -394,31 +398,6 @@ int CVICALLBACK BT_SSM5_DATA_READ (int panel, int control, int event,
     return 0;
 }
 
-
-
-int CVICALLBACK BT_SSN1_DATA_CAL (int panel, int control, int event,
-								  void *callbackData, int eventData1, int eventData2)
-{
-	switch (event)
-	{
-		case EVENT_COMMIT:
-            if(BLE_FLAG.connect_status == BLE_CONNECTED)
-            {
-                //SetCtrlVal(tabPanel_FGI, TABPANEL_2_LOG_MONITOR_FGI, "\r\n > \r\n");
-                std_stick_number = STD_STICK_SSN1;
-                FGI_VALIABLE.process = START;
-                FGI_Next_Process(FGI_CALIBRATION_MODE_START);
-            }
-            else{
-                SetCtrlVal(tabPanel_FGI, TABPANEL_2_LOG_MONITOR_FGI, "\r\n > 오류: 블루투스 연결 후 다시 시도해주세요.\r\n");
-            }
-            break;
-	}
-	return 0;
-}
-
-
-
 int CVICALLBACK BT_SSN1_DATA_READ (int panel, int control, int event,
                                    void *callbackData, int eventData1, int eventData2)
 {
@@ -439,6 +418,43 @@ int CVICALLBACK BT_SSN1_DATA_READ (int panel, int control, int event,
     }
     return 0;
 }
+
+int  CVICALLBACK BT_SSN1_CAL(int panel, int control, int event, void *callbackData, int eventData1, int eventData2)
+{
+	int ButtonState;
+	
+	switch (event)
+	{
+		case EVENT_COMMIT:
+			GetCtrlVal (panel, TABPANEL_2_BT_SSN1_CAL, &ButtonState);
+			switch(ButtonState)
+			{
+				case BT_ON: // 캘리브레이션 시작
+		            if(BLE_FLAG.connect_status == BLE_CONNECTED)
+		            {				
+		                std_stick_number = STD_STICK_SSN1;
+		                FGI_VALIABLE.process = START;
+		                FGI_Next_Process(FGI_CALIBRATION_MODE_START);
+		            }
+		            else
+					{
+		                SetCtrlVal(panel, TABPANEL_2_LOG_MONITOR_FGI, "\r\n > 오류: 블루투스 연결 후 다시 시도해주세요.\r\n");
+		            }
+					break;
+				case BT_OFF: // 캘리브레이션 중단
+					FGI_Stop();
+					break;
+			}
+            break;
+	}
+	return 0;
+}
+
+int  CVICALLBACK CB_SSN1_READ(int panel, int control, int event, void *callbackData, int eventData1, int eventData2)
+{
+	return 0;
+}
+
 
 int CVICALLBACK BT_CLEAR_MONITOR_FGI (int panel, int control, int event,
                                       void *callbackData, int eventData1, int eventData2)
@@ -516,7 +532,9 @@ int CVICALLBACK BT_RESET_ITEM_FGI (int panel, int control, int event,
     switch (event)
     {
         case EVENT_COMMIT:
-            FGI_Clear_Items(tabPanel_FGI);
+			FGI_Clear_Checkbox(panel);
+            FGI_Clear_Result(panel);
+			SetCtrlVal(panel, TABPANEL_2_LOG_MONITOR_FGI, "\r\n > 항목 초기화 완료.\r\n");
             break;
     }
     return 0;
@@ -796,5 +814,10 @@ int  CVICALLBACK BT_READ_PTR(int panel, int control, int event, void *callbackDa
 
 int  CVICALLBACK BT_READ_CAL(int panel, int control, int event, void *callbackData, int eventData1, int eventData2)
 {
-	return 0;
+		return 0;
+}
+
+int  CVICALLBACK BT_HELP(int panel, int control, int event, void *callbackData, int eventData1, int eventData2)
+{
+		return 0;
 }

@@ -50,10 +50,11 @@ typedef struct
 }INSPECTION_ITEMS_Typedef;
 
 void FGI_Read_Checklist_Item_Status(int panel);
-void FGI_Read_Reference_Value_Range(int panel, int* ref_value[6][2]);
-void FGI_Read_Reference_Level(int panel, int* ref_level[6]);
-void FGI_Read_Reference_Result(int panel, int* ref_rslt[6]);
-void FGI_Clear_Items(int panel);
+//void FGI_Read_Reference_Value_Range(int panel, int* ref_value[6][2]);
+//void FGI_Read_Reference_Level(int panel, int* ref_level[6]);
+//void FGI_Read_Reference_Result(int panel, int* ref_rslt[6]);
+void FGI_Clear_Checkbox(int panel);
+void FGI_Clear_Result(int panel);
 char FGI_Checklist_Items_Inspection(int panel);
 
 void FGI_Read_Std_Stick_Process();
